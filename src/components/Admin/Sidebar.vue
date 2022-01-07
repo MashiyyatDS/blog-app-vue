@@ -1,0 +1,42 @@
+<template>
+  <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar d-none d-lg-block d-xxl-block" style="width: 280px;">
+    <div class="logo-container d-flex justify-content">
+      <a href="/" class="mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <img src="@/assets/images/logo-1.png" alt="" class="sidebar-logo">
+      </a>
+    </div>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <router-link to="/admin/dashboard" class="nav-link text-white">
+          <i class="fa fa-dashboard"></i>
+          <span class="ms-3">Dashboard</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/admin/blogs" class="nav-link text-white">
+          <i class="fa fa-book"></i>
+          <span class="ms-3">Blogs</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/admin/projects" class="nav-link text-white">
+          <i class="fa fa-folder"></i>
+          <span class="ms-3">Projects</span>
+        </router-link>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <i class="fa fa-sign-out"></i>
+          <span class="ms-3">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Sidebar'
+}
+</script>

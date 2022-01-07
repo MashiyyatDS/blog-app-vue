@@ -1,0 +1,88 @@
+@import url('font-face.css');
+.row {
+  --bs-gutter-x: 0!important;
+}
+.sidebar {
+  width: 280px;
+  font-family: 'Manjari Regular';
+  position: fixed;
+  height: 100%!important;
+  background-color: white!important;
+}
+.sidebar .nav-link {
+  font-family: 'Lexend';
+  margin: 5px;
+}
+.sidebar-logo {
+  align-items: center;
+  width: 70%;
+  border-radius: 5%;
+}
+.logo-container {
+  text-align: center;
+}
+.navbar .navbar-title {
+  font-family: "Poppins";
+  margin: 0px 15px;
+}
+
+.blog-image-container img {
+  width: 100%;
+  border-radius: 4px;
+  max-height: 300px;
+}
+.blog-content-container p, 
+.artwork-content-containerm p, 
+.project-content-container p  {
+  font-size: 14px;
+  font-family: 'Poppins';
+  text-align: justify;
+  margin-top: 5px;
+}
+.blog-content-container h3, 
+.artwork-content-container h3, 
+.project-content-container h3 {
+  font-family: 'Lexend';
+  font-size: 25px;
+}
+.artwork-image-container {
+  max-height: 400px;
+  background-color: grey;
+  overflow: hidden;
+}
+.artwork-image-container img{
+  width: 100%;
+}
+.art-image-container {
+  text-align: center;
+}
+.art-image-container img{
+  height: 500px;
+  border-radius: 2%;
+}
+
+.project-image-container img{
+  width: 100%;
+  border-radius: 4px;
+  max-height: 300px;
+}
+
+::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  /* border-radius: 10px; */
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+  width: 12px;
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #363636;
+}
