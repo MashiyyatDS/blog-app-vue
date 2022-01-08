@@ -45,15 +45,9 @@
         </div>
         
         <div class="pagination-container d-flex justify-content-center mb-3">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#"><i class="fa fa-chevron-left"></i></a></li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#"><i class="fa fa-chevron-right"></i></a></li>
-            </ul>
-          </nav>
+          <Pagination 
+            v-bind:linkData="getProjectLinks"
+            v-on:emitLink="fetchProjects"/>
         </div>
       </div>
     </div>
@@ -63,21 +57,22 @@
 <script>
 import Sidebar from '@/components/Partials/Sidebar'
 import Offcanvas from '@/components/Partials/Offcanvas'
+import Pagination from '@/components/Admin/Pagination'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Projects',
   components: {
-    Sidebar, Offcanvas
+    Sidebar, Offcanvas, Pagination
   },
   computed: {
-    ...mapGetters(['getProjects'])
+    ...mapGetters(['getProjects', 'getProjectLinks'])
   },
   methods: {
     ...mapActions(['fetchProjects'])
   },
   created() {
-    this.fetchProjects()
+    this.fetchProjects('api/projects/limit/5')
   }
 }
 </script>

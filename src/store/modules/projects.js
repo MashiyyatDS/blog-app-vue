@@ -1,6 +1,5 @@
-// import axios from 'axios'
-
 import axios from "axios"
+import Swal from 'sweetalert2'
 
 const state = {
   projects: [],
@@ -12,18 +11,18 @@ const state = {
     repository: '',
     image: '',
     user_id: 1
-  }
+  },
+  projectLinks: {}
 }
 
 const getters = {
   getProject: (state) => state.project,
-  getProjects: (state) => state.projects
+  getProjects: (state) => state.projects,
+  getProjectLinks: (state) => state.projectLinks
 }
 
 const actions = {
   addProject({ commit }, data) {
-    console.log(data)
-    commit("setProject")
     // ============= 1. UPLOAD IMAGE ==============
     const formData = new FormData()
     formData.append('file', data.image)
@@ -46,7 +45,7 @@ const actions = {
       })
       .then(res => {
         // ============= 2. ADD PROJECT TO TAGS TO DB ==============
-        console.log(res)
+        commit('setProject', res.data.project)
         axios.post('api/project-tags', {
           tags: data.tags,
           project_id: res.data.project.id
@@ -61,13 +60,14 @@ const actions = {
     .catch(err => console.log(err.response))
   },
 
-  fetchProjects({ commit }) {
-    axios.get('api/projects')
+  fetchProjects({ commit }, url) {
+    axios.get(url)
     .then(res => {
       console.log(res)
       commit("setProjects", res.data.projects.data)
+      commit("setProjectLinks", res.data.projects.links)
     })
-    .catch(err => console.log(err.response))
+    .catch(err => console.log(err))
   },
 
   deleteProject({ commit }, id) {
@@ -77,14 +77,38 @@ const actions = {
       commit("setProject")
     })
     .catch(err => console.log(err.response))
+  },
+
+  findProject({ commit }, id) {
+    axios.get(`api/projects/${id}`)
+    .then(res => {
+      console.log(res)
+      commit('setProject', res.data.project)
+    })
+    .catch(err => console.log(err))
+  },
+
+  updateProject({ commit }, data) {
+    axios.put(`api/projects/${data.id}`, data.project)
+    .then(res => {
+      Swal.fire("Project updated")
+      console.log(res)
+      commit('updateProject', res.data.project)
+    })
+    .catch(err => console.log(err))
   }
 }
 
 const mutations = {
-  setProject: () => {},
+  setProject: (state, project) => (state.project = project),
   setProjects: (state, projects) => (state.projects = projects),
+  setProjectLinks: (state, links) => (state.projectLinks = links),
   setProjectImage: (state, image) => (state.project.image = image),
-  setProjectId: (state, projectId) => (state.projectId = projectId)
+  setProjectId: (state, projectId) => (state.projectId = projectId),
+  updateProject: (state, project) => {
+    let objIndex = state.projects.findIndex((obj => obj.id == project.id))
+    state.projects[objIndex] = project
+  }
 }
 
 export default {

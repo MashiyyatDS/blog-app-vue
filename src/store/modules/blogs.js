@@ -19,7 +19,7 @@ const getters = {
 
 const actions = {
   fetchBlogs({ commit }) {
-    axios.get('/api/blogs')
+    axios.get('/api/blogs/paginate=8/category=blog')
     .then(res => {
       console.log(res)
       commit("setBlogs", res.data.blogs.data)

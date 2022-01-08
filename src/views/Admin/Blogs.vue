@@ -13,34 +13,38 @@
           </button>
         </nav>
         <!-- NAVBAR HERE -->
-        <router-link to="/admin/add-blog" class="btn btn-sm btn-outline-success ms-1">
-          <i class="fa fa-plus"></i> Add blog
-        </router-link>
-        <div class="p-3">
-          <table class="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Date posted</th>
-                <th scope="col">Options</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="blog in getBlogs" :key="blog.id">
-                <td>{{ blog.title }}</td>
-                <td>{{ blog.created_at }}</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-success ms-1">
-                    <i class="fa fa-pencil"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger ms-1">
-                    <i class="fa fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <router-link to="/admin/add-blog" class="btn btn-sm btn-outline-success ms-1">
+              <i class="fa fa-plus"></i> Add blog
+            </router-link>
+          </li>
+          <li class="list-group-item table-container">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Date posted</th>
+                  <th scope="col">Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="blog in getBlogs" :key="blog.id">
+                  <td>{{ blog.title }}</td>
+                  <td>{{ blog.created_at }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-success ms-1">
+                      <i class="fa fa-pencil"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger ms-1">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -67,3 +71,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .table-container {
+    padding: 0px;
+    text-align: center;
+  }
+  .table {
+    margin-bottom: 0px;
+  }
+</style>
