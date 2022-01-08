@@ -6,6 +6,8 @@ import Login from '@/views/Pages/Login'
 import Dashboard from '@/views/Admin/Dashboard'
 import AdminBlogs from '@/views/Admin/Blogs'
 import AdminProjects from '@/views/Admin/Projects'
+import AddBlog from '@/views/Admin/AddBlog'
+import AddProject from '@/views/Admin/AddProject'
 
 const routes = [
   {
@@ -42,6 +44,16 @@ const routes = [
     path: '/admin/projects',
     name: 'AdminProjects',
     component: AdminProjects
+  },
+  {
+    path: '/admin/add-blog',
+    name: 'AddBlog',
+    component: AddBlog
+  },
+  {
+    path: '/admin/add-project',
+    name: 'AddProject',
+    component: AddProject
   }
 ]
 

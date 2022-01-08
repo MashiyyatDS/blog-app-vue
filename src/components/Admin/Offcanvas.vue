@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style scoped>
-  .offacanvas-body {
-    padding: 0px;
+  .offcanvas-body {
+    padding: 0px!important;
   }
 </style>

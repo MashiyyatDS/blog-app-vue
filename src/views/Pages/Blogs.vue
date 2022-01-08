@@ -15,22 +15,21 @@
           </div>
         </nav>
 
-        <div class="row blog">
+        <div class="row blog" v-for="blog in getBlogs" :key="blog.id">
           <div class="col-md-6">
             <div class="blog-image-container p-2">
-              <img src="@/assets/images/blog-1.jpg" alt="">
+              <img v-bind:src="blog.image" alt="">
             </div>
           </div>
           <div class="col-md-6">
             <div class="blog-content-container p-2">
-              <h3>Sample Blog Post</h3>
-              <small class="text-muted">Posted at January 1, 2022, 10:59 AM</small>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem explicabo eligendi cumque quo, rem perferendis voluptatum atque ea nesciunt natus qui animi iure delectus alias sint, dolor commodi sed odio?</p>
+              <h3>{{ blog.title }}</h3>
+              <small class="text-muted">{{ blog.created_at }}</small>
+              <p>{{ blog.content }}</p>
               <div class="blog-tags-container">
-                <button class="btn btn-sm btn-outline-dark ms-1"><i class="fa fa-tag"></i> Meme</button>
-                <button class="btn btn-sm btn-outline-dark ms-1"><i class="fa fa-tag"></i> FGO</button>
-                <button class="btn btn-sm btn-outline-dark ms-1"><i class="fa fa-tag"></i> Fate</button>
-                <button class="btn btn-sm btn-outline-dark ms-1"><i class="fa fa-tag"></i> Craft Essence</button>
+                <button class="btn btn-sm btn-outline-dark ms-1 mb-1" v-for="tag in blog.tags" :key="tag.id">
+                  <i class="fa fa-tag"></i> {{ tag.tag }}
+                </button>
               </div>
             </div>
           </div>
@@ -55,11 +54,21 @@
 <script>
 import Sidebar from '@/components/Partials/Sidebar'
 import Offcanvas from '@/components/Partials/Offcanvas'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Blogs',
   components: {
     Sidebar, Offcanvas
+  },
+  computed: {
+    ...mapGetters(['getBlogs'])
+  },
+  methods: {
+    ...mapActions(['fetchBlogs'])
+  },
+  created() {
+    this.fetchBlogs()
   }
 }
 </script>

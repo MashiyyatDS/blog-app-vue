@@ -1,4 +1,12 @@
-import Vuex from 'vuex'
-import { createApp } from 'Vue'
+import { createStore } from 'vuex'
+import blogs from './modules/blogs'
+import projects from './modules/projects'
 
-createApp.user(Vuex)
+const store = createStore({
+  modules: {
+    blogs,
+    projects
+  }
+})
+
+export default store

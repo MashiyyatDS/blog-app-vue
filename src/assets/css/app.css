@@ -29,7 +29,6 @@
 .blog-image-container img {
   width: 100%;
   border-radius: 4px;
-  max-height: 300px;
 }
 .blog-content-container p, 
 .artwork-content-containerm p, 
@@ -64,7 +63,6 @@
 .project-image-container img{
   width: 100%;
   border-radius: 4px;
-  max-height: 300px;
 }
 
 ::-webkit-scrollbar-track
