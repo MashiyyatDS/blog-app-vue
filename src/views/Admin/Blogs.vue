@@ -33,10 +33,14 @@
                   <td>{{ blog.title }}</td>
                   <td>{{ blog.created_at }}</td>
                   <td>
-                    <button class="btn btn-sm btn-outline-success ms-1">
+                    <button class="btn btn-sm btn-outline-success ms-1" 
+                      data-bs-toggle="modal" 
+                      data-bs-target="#blogUpdateForm"
+                      @click="findBlog(blog.id)">
                       <i class="fa fa-pencil"></i>
                     </button>
-                    <button class="btn btn-sm btn-outline-danger ms-1">
+                    <button class="btn btn-sm btn-outline-danger ms-1"
+                      @click="deleteBlog(blog.id)">
                       <i class="fa fa-trash"></i>
                     </button>
                   </td>
@@ -44,7 +48,13 @@
               </tbody>
             </table>
           </li>
+          <li class="list-group-item d-flex justify-content-center">
+            <Pagination 
+              v-bind:linkData="getBlogLinks"
+              v-on:emitLink="fetchBlogs"/>
+          </li>
         </ul>
+        <BlogUpdateForm/>
       </div>
     </div>
   </div>
@@ -53,21 +63,28 @@
 <script>
 import Sidebar from '@/components/Admin/Sidebar'
 import Offcanvas from '@/components/Admin/Offcanvas'
+import BlogUpdateForm from '@/components/Admin/BlogUpdateForm'
+import Pagination from '@/components/Admin/Pagination'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'AdminBlogs',
   components: {
-    Sidebar, Offcanvas
+    Sidebar, Offcanvas, Pagination, BlogUpdateForm
+  },
+  data() {
+    return {
+      url: '/api/blogs/paginate=8/category=blog'
+    }
   },
   computed: {
-    ...mapGetters(['getBlogs'])
+    ...mapGetters(['getBlogs', 'getBlogLinks'])
   },
   methods: {
-    ...mapActions(['fetchBlogs'])
+    ...mapActions(['fetchBlogs', 'findBlog', 'deleteBlog'])
   },
   created() {
-    this.fetchBlogs()
+    this.fetchBlogs(this.url)
   }
 }
 </script>

@@ -6,7 +6,7 @@
         <Sidebar/>
       </div>
       <div class="col-lg-9 col-md-12">
-        <nav class="navbar navbar navbar-dark bg-dark mb-3 sticky-top" style="margin: 2px;border-radius: 5px;">
+        <nav class="navbar navbar navbar-dark bg-dark mb-3 sticky-top">
           <div class="container-fluid p-1">
             <p class="navbar-title"><a class="navbar-brand" href="#"><i class="fa fa-folder"></i> PROJECTS</a></p>
             <button class="btn btn-outline-primary d-block d-lg-none d-sm-block d-xs-block" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
@@ -15,40 +15,54 @@
           </div>
         </nav>
 
-        <!-- PROJECT ITEM -->
-        <div class="row mb-3" v-for="project in getProjects" :key="project.id">
-          <div class="col-md-6 p-1">
-            <div class="project-image-container">
-              <img v-bind:src="project.image" alt="">
-            </div>
-          </div>
-          <div class="col-md-6 p-1">
-            <div class="project-content-container">
-              <h3><i class="fa fa-folder"></i> {{ project.title }}</h3>
-              <p>{{ project.description }}</p>
-              <div class="project-tags-container">
-                <span class="badge bg-primary ms-1" v-for="tag in project.tags" :key="tag.id">
-                  {{ tag.tag }}
-                </span>
-              </div>
-              <hr>
-              <div class="d-flex">
-                <div class="d-grid col-6 p-1">
-                  <a v-bind:href="project.link" class="btn btn-sm btn-outline-dark">Demo</a>
-                </div>
-                <div class="d-grid col-6 p-1">
-                  <a v-bind:href="project.repository" class="btn btn-sm btn-outline-dark">Code</a>
+        <ul class="list-group">
+          <li class="list-group-item" v-for="project in getProjects" :key="project.id">
+            <div class="row mb-3">
+              <div class="col-md-6 p-1">
+                <div class="project-image-container">
+                  <img v-bind:src="project.image" alt="">
                 </div>
               </div>
+              <div class="col-md-6 p-1">
+                <ul class="list-group">
+                  <li class="list-group-item project-content-container">
+                    <h3>
+                      <router-link :to="`/projects/${project.slug}`">
+                        <i class="fa fa-chevron-right"></i> {{ project.title }}
+                      </router-link>  
+                    </h3>
+                    <small class="text-muted">Posted at {{ project.created_at }}</small>
+                  </li>
+                  <li class="list-group-item">
+                    <small class="text-muted">Author: {{ project.user.firstname + " " + project.user.lastname }}</small>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="project-tags-container">
+                      <span class="badge bg-dark ms-1" v-for="tag in project.tags" :key="tag.id">
+                        {{ tag.tag }}
+                      </span>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="d-flex">
+                      <div class="d-grid col-6 p-1">
+                        <a v-bind:href="project.link" class="btn btn-sm btn-primary">Demo</a>
+                      </div>
+                      <div class="d-grid col-6 p-1">
+                        <a v-bind:href="project.repository" class="btn btn-sm btn-dark">Code</a>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-        </div>
-        
-        <div class="pagination-container d-flex justify-content-center mb-3">
-          <Pagination 
-            v-bind:linkData="getProjectLinks"
-            v-on:emitLink="fetchProjects"/>
-        </div>
+          </li>
+          <li class="list-group-item pagination-container d-flex justify-content-center mb-3">
+            <Pagination 
+              v-bind:linkData="getProjectLinks"
+              v-on:emitLink="fetchProjects"/>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -72,7 +86,18 @@ export default {
     ...mapActions(['fetchProjects'])
   },
   created() {
-    this.fetchProjects('api/projects/limit/5')
+    this.fetchProjects('api/projects/limit/3')
   }
 }
 </script>
+
+<style scoped>
+  .project-content-container a{
+    text-decoration: none;
+    color: rgb(63, 63, 63);
+    font-size: 19px;
+  }
+  .accordion-item {
+    border-radius: 0px!important;
+  }
+</style>

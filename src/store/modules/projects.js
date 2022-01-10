@@ -1,6 +1,20 @@
 import axios from "axios"
 import Swal from 'sweetalert2'
 
+function showLoader(message){
+  Swal.fire({
+    title: message,
+    html: `
+      <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    `,
+    showConfirmButton: false,
+    allowOutsideClick: false,
+    allowEscapeKey: false
+  })
+}
+
 const state = {
   projects: [],
   projectId: '',
@@ -16,6 +30,7 @@ const state = {
 }
 
 const getters = {
+  project: (state) => state.project,
   getProject: (state) => state.project,
   getProjects: (state) => state.projects,
   getProjectLinks: (state) => state.projectLinks
@@ -24,6 +39,7 @@ const getters = {
 const actions = {
   addProject({ commit }, data) {
     // ============= 1. UPLOAD IMAGE ==============
+    showLoader("Uploading project...")
     const formData = new FormData()
     formData.append('file', data.image)
     formData.append('upload_preset', 'jsa0dt26')
@@ -44,13 +60,15 @@ const actions = {
         user_id: 1
       })
       .then(res => {
-        // ============= 2. ADD PROJECT TO TAGS TO DB ==============
+        // ============= 3. ADD PROJECT TO TAGS TO DB ==============
         commit('setProject', res.data.project)
         axios.post('api/project-tags', {
           tags: data.tags,
           project_id: res.data.project.id
         })
-        .then(res => console.log(res))
+        Swal.fire("Project Added!")
+        .then(res => {
+          console.log(res)})
         .catch(err => console.log(err.response))
         // =========================================================
       })
@@ -61,20 +79,23 @@ const actions = {
   },
 
   fetchProjects({ commit }, url) {
+    showLoader("Loading...")
     axios.get(url)
     .then(res => {
+      Swal.close()
       console.log(res)
       commit("setProjects", res.data.projects.data)
       commit("setProjectLinks", res.data.projects.links)
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err.response))
   },
 
   deleteProject({ commit }, id) {
     axios.delete(`api/projects/${id}`)
     .then(res => {
       console.log(res)
-      commit("setProject")
+      commit("removeProject", id)
+      Swal.fire("Project deleted")
     })
     .catch(err => console.log(err.response))
   },
@@ -96,6 +117,30 @@ const actions = {
       commit('updateProject', res.data.project)
     })
     .catch(err => console.log(err))
+  },
+
+  searchProject({ commit }, data) {
+    axios.get(`api/projects/search/${data}`)
+    .then(res => {
+      console.log(res)
+      commit("setProjects", res.data.projects.data)
+      commit("setProjectLinks", res.data.projects.links)
+    })
+    .catch(err => console.log(err.response))
+  },
+
+  viewProject({ commit }, slug) {
+    showLoader("Loading...")
+    commit('setProject', {})
+    axios.get(`api/projects/slug/${slug}`)
+    .then(res => {
+      console.log(res)
+      Swal.close()
+      commit('setProject', res.data.project)
+    })
+    .catch(err => {
+      console.log(err.response)
+    })
   }
 }
 
@@ -108,6 +153,10 @@ const mutations = {
   updateProject: (state, project) => {
     let objIndex = state.projects.findIndex((obj => obj.id == project.id))
     state.projects[objIndex] = project
+  },
+  removeProject: (state, id) => {
+    let objIndex = state.projects.findIndex(obj => obj.id == id)
+    state.projects.splice(objIndex, 1)
   }
 }
 

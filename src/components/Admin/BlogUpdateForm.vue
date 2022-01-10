@@ -1,7 +1,7 @@
 <template>
-  <div class="modal fade" id="projectUpdateForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade" id="blogUpdateForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen-xxl-down">
-      <form @submit.prevent="submitEditForm">
+      <form @submit.prevent="submitBlog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
@@ -11,37 +11,33 @@
             <ul class="list-group">
               <li class="list-group-item">
                 <div class="mb-3">
-                  <label class="form-label">Project title: </label>
-                  <input type="text" class="form-control" v-model="getProject.title"
-                  placeholder="Enter project title...">
+                  <label class="form-label">Blog title: </label>
+                  <input type="text" class="form-control"
+                  placeholder="Enter project title..."
+                  v-model="getBlog.title">
                 </div>
               </li>
               <li class="list-group-item">
                 <div class="mb-3">
-                  <label class="form-label">Project description: </label>
+                  <label class="form-label">Blog content: </label>
                   <textarea cols="30" rows="8" class="form-control" 
-                  placeholder="Enter project description..." v-model="getProject.description"></textarea>
+                  placeholder="Enter project description..."
+                  v-model="getBlog.content"></textarea>
                 </div>
               </li>
               <li class="list-group-item">
-                <div class="row">
-                  <div class="col-6 p-1">
-                    <label class="form-label">Demo link: </label>
-                    <input type="text" class="form-control" 
-                    placeholder="Enter project title..."
-                      v-model="getProject.link">
-                  </div>
-                  <div class="col-6 p-1">
-                    <label class="form-label">Repository: </label>
-                    <input type="text" class="form-control" 
-                    placeholder="Enter project title..."
-                      v-model="getProject.repository">
-                  </div>
+                <div class="form-check">
+                  <input class="form-check-input" 
+                    type="checkbox"
+                    v-model="getBlog.isNsfw">
+                  <label class="form-check-label" for="defaultCheck1">
+                    Set NSFW content
+                  </label>
                 </div>
               </li>
               <li class="list-group-item">
                 <div class="mb-3 p-1">
-                  <label for="formFile" class="form-label">Project image: </label>
+                  <label for="formFile" class="form-label">Blog image: </label>
                   <input class="form-control" type="file" @change="handleFile">
                 </div>
               </li>
@@ -61,7 +57,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+            <button type="submit" class="btn btn-primary">Save</button>
           </div>
         </div>
       </form>
@@ -73,28 +69,58 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'ProjectUpdateForm',
-  props: ['editProject'],
-  computed: {
-    ...mapGetters(['getProject'])
-  }, 
+  name: 'BlogUpdateForm',
   data() {
     return {
       chips: [],
-      currentChip: '',
+      currentChip: ''
     }
   },
+  computed: {
+    ...mapGetters(['getBlog'])
+  },
   methods: {
-    ...mapActions(['updateProject']),
+    ...mapActions(['updateBlog']),
 
-    submitEditForm() {
+    submitBlog() {
       const payload = {
-        id: this.getProject.id,
-        project: this.getProject
+        id: this.getBlog.id,
+        blog: this.getBlog
       }
-      this.updateProject(payload)
+      this.updateBlog(payload)
+    }, 
+
+    saveChip() {
+      this.chips.push(this.currentChip)
+      this.currentChip = ""
     },
 
+    deleteChip(i) {
+      this.chips.splice(i, 1)
+    }
   }
 }
 </script>
+
+<style scoped>
+.chip-container {
+  min-height: 34px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+}
+.chip-container .chip {
+  margin: 4px;
+  background: #e0e0e0;
+  padding: 5px 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+.chip-container .chip i {
+  cursor: pointer;
+  opacity: 0.56;
+  margin-left: 8px;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar d-none d-lg-block d-xxl-block" style="width: 280px">
+  <div class="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar d-none d-lg-block d-xxl-block" style="width: 336px">
     <div class="logo-container mb-5">
       <a href="/" class="mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
         <img src="@/assets/images/logo-2.png" alt="" class="sidebar-logo">

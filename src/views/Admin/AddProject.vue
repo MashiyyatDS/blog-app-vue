@@ -18,25 +18,25 @@
             <li class="list-group-item">
               <div class="mb-3">
                 <label class="form-label">Title: </label>
-                <input type="text" class="form-control" placeholder="Enter project title..." v-model="getProject.title">
+                <input type="text" class="form-control" placeholder="Enter project title..." v-model="project.title">
               </div>
             </li>
             <li class="list-group-item">
               <div class="mb-3">
                 <label class="form-label">Description: </label>
-                <textarea class="form-control" cols="30" rows="5" v-model="getProject.description"></textarea>
+                <textarea class="form-control" cols="30" rows="5" v-model="project.description"></textarea>
               </div>
             </li>
             <li class="list-group-item">
               <div class="mb-3">
                 <label class="form-label">Demo link: </label>
-                <input type="text" class="form-control" placeholder="Enter project demo link..." v-model="getProject.link">
+                <input type="text" class="form-control" placeholder="Enter project demo link..." v-model="project.link">
               </div>
             </li>
             <li class="list-group-item">
               <div class="mb-3">
                 <label class="form-label">Repository: </label>
-                <input type="text" class="form-control" placeholder="Enter project repository..." v-model="getProject.repository">
+                <input type="text" class="form-control" placeholder="Enter project repository..." v-model="project.repository">
               </div>
             </li>
             <li class="list-group-item">
@@ -87,7 +87,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getProject'])
+    ...mapGetters(['project'])
   },
   methods: {
     ...mapActions(['addProject']),
@@ -110,7 +110,7 @@ export default {
 
     submitProject() {
       const payload = {
-        project: this.getProject,
+        project: this.project,
         tags: this.chips,
         image: this.file
       }
