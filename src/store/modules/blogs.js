@@ -1,5 +1,6 @@
 import axios from "axios"
 import Swal from "sweetalert2"
+import router from '@/router'
 
 function showLoader(message){
   Swal.fire({
@@ -35,11 +36,10 @@ const getters = {
 
 const actions = {
   fetchBlogs({ commit }, url) {
-    showLoader("Loading...")
+    commit("setBlogs",{})
+    commit("setBlogLinks", {})
     axios.get(url)
     .then(res => {
-      Swal.close()
-      console.log(res)
       commit("setBlogs", res.data.blogs.data)
       commit("setBlogLinks", res.data.blogs.links)
     })
@@ -100,11 +100,11 @@ const actions = {
       Swal.close()
       commit('setBlog', res.data.blog)
     })
-    .catch(err => console.log(err.response))
-  },
-
-  sample() {
-    console.log("Working....")
+    .catch(err => {
+      Swal.close()
+      router.push("/page-not-found")
+      console.log(err.response)
+    })
   }
 }
 

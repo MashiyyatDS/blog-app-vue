@@ -16,7 +16,7 @@
         </nav>
 
         <ul class="list-group">
-          <li class="list-group-item" v-for="blog in getBlogs" :key="blog.id">
+          <li class="list-group-item" v-for="blog in getBlogs" :key="blog.id" data-aos="fade-in">
             <div class="row blog">
               <div class="col-md-6">
                 <div class="blog-image-container p-2">
@@ -30,7 +30,7 @@
                     <small class="text-muted">Posted at {{ blog.created_at }}</small>
                   </li>
                   <li class="list-group-item blog-content-container">
-                    <p>{{ blog.content }}</p>
+                    <small class="text-muted">Author: {{ blog.user.firstname + " " + blog.user.lastname }}</small>
                   </li>
                   <li class="list-group-item">
                     <button class="btn btn-sm btn-outline-dark ms-1 mb-1" v-for="tag in blog.tags" :key="tag.id">

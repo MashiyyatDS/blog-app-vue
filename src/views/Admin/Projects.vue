@@ -32,7 +32,7 @@
                   <th scope="col">Options</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody data-aos="fade-in">
                 <tr v-for="project in getProjects" :key="project.id">
                   <td>{{ project.title }}</td>
                   <td>{{ project.created_at }}</td>
@@ -77,12 +77,12 @@ export default {
   },
   data() {
     return {
-      url: 'api/projects/limit/5',
+      url: 'api/projects/limit/10',
       search: ""
     }
   },
   computed: {
-    ...mapGetters(['getProjects', 'getProject', 'getProjectLinks'])
+    ...mapGetters(['getProjects', 'getProject', 'getProjectLinks', 'isLoading'])
   },
   methods: {
     ...mapActions(['fetchProjects', 'findProject', 'deleteProject', 'searchProject']), 

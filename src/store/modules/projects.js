@@ -1,5 +1,6 @@
 import axios from "axios"
 import Swal from 'sweetalert2'
+import router from '@/router'
 
 function showLoader(message){
   Swal.fire({
@@ -26,14 +27,18 @@ const state = {
     image: '',
     user_id: 1
   },
-  projectLinks: {}
+  projectLinks: {},
+  isLoading: true,
+  projectTags: []
 }
 
 const getters = {
   project: (state) => state.project,
   getProject: (state) => state.project,
   getProjects: (state) => state.projects,
-  getProjectLinks: (state) => state.projectLinks
+  getProjectLinks: (state) => state.projectLinks,
+  isLoading: (state) => state.isLoading,
+  getProjectTags: (state) => state.projectTags
 }
 
 const actions = {
@@ -79,50 +84,77 @@ const actions = {
   },
 
   fetchProjects({ commit }, url) {
-    showLoader("Loading...")
+    commit("setLoading", true)
+    commit("setProjects", {})
+    commit("setProjectLinks", {})
     axios.get(url)
     .then(res => {
-      Swal.close()
-      console.log(res)
       commit("setProjects", res.data.projects.data)
       commit("setProjectLinks", res.data.projects.links)
+      commit("setLoading", false)
     })
     .catch(err => console.log(err.response))
   },
 
   deleteProject({ commit }, id) {
-    axios.delete(`api/projects/${id}`)
-    .then(res => {
-      console.log(res)
-      commit("removeProject", id)
-      Swal.fire("Project deleted")
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "The selected project will be deleted.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#0d6efd',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it'
+    }).then(result => {
+      if(result.isConfirmed) {
+        axios.delete(`api/projects/${id}`)
+        .then(res => {
+          console.log(res)
+          commit("removeProject", id)
+          Swal.fire("Project deleted")
+        })
+        .catch(err => console.log(err.response))
+      }
     })
-    .catch(err => console.log(err.response))
   },
 
   findProject({ commit }, id) {
+    commit('setProject', {})
+    commit('setProjectTags', {})
     axios.get(`api/projects/${id}`)
     .then(res => {
       console.log(res)
       commit('setProject', res.data.project)
+      commit('setProjectTags', res.data.project.tags)
     })
     .catch(err => console.log(err))
   },
 
   updateProject({ commit }, data) {
+    showLoader("Updating...")
     axios.put(`api/projects/${data.id}`, data.project)
     .then(res => {
+      Swal.close()
       Swal.fire("Project updated")
       console.log(res)
       commit('updateProject', res.data.project)
     })
     .catch(err => console.log(err))
+    // Update Project Tags
+    axios.put(`api/projects/${data.id}/project-tags`, {
+      tags: data.tags
+    })
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => console.log(err.response))
   },
 
   searchProject({ commit }, data) {
+    showLoader("Searching...")
     axios.get(`api/projects/search/${data}`)
     .then(res => {
-      console.log(res)
+      Swal.close()
       commit("setProjects", res.data.projects.data)
       commit("setProjectLinks", res.data.projects.links)
     })
@@ -134,11 +166,12 @@ const actions = {
     commit('setProject', {})
     axios.get(`api/projects/slug/${slug}`)
     .then(res => {
-      console.log(res)
       Swal.close()
       commit('setProject', res.data.project)
     })
     .catch(err => {
+      Swal.close()
+      router.push("/page-not-found")
       console.log(err.response)
     })
   }
@@ -146,6 +179,7 @@ const actions = {
 
 const mutations = {
   setProject: (state, project) => (state.project = project),
+  setProjectTags: (state, tags) => (state.projectTags = tags),
   setProjects: (state, projects) => (state.projects = projects),
   setProjectLinks: (state, links) => (state.projectLinks = links),
   setProjectImage: (state, image) => (state.project.image = image),
@@ -157,7 +191,8 @@ const mutations = {
   removeProject: (state, id) => {
     let objIndex = state.projects.findIndex(obj => obj.id == id)
     state.projects.splice(objIndex, 1)
-  }
+  },
+  setLoading: (state, condition) => (state.isLoading = condition)
 }
 
 export default {

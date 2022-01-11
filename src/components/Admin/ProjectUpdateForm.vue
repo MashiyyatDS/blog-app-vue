@@ -47,8 +47,8 @@
               </li>
               <li class="list-group-item">
                 <div class="chip-container">
-                  <div class="chip" v-for="(chip, i) of chips" :key="chip.label">
-                    {{chip}}
+                  <div class="chip" v-for="(chip, i) of getProjectTags" :key="chip.label">
+                    {{chip.tag}}
                     <i class="fa fa-times" @click="deleteChip(i)"></i>
                   </div>
                 </div>
@@ -76,7 +76,7 @@ export default {
   name: 'ProjectUpdateForm',
   props: ['editProject'],
   computed: {
-    ...mapGetters(['getProject'])
+    ...mapGetters(['getProject', 'getProjectTags'])
   }, 
   data() {
     return {
@@ -88,13 +88,51 @@ export default {
     ...mapActions(['updateProject']),
 
     submitEditForm() {
+      let filteredTags = this.getProjectTags.map(tag => tag.tag)
       const payload = {
         id: this.getProject.id,
-        project: this.getProject
+        project: this.getProject,
+        tags: filteredTags
       }
+      console.log(payload)
       this.updateProject(payload)
+    },
+
+    saveChip() {
+      if(this.currentChip != '') {
+        this.getProjectTags.push({ tag: this.currentChip })
+        this.currentChip = ''
+      }
+    },
+
+    deleteChip(index) {
+      this.getProjectTags.splice(index, 1)
     },
 
   }
 }
 </script>
+
+
+<style scoped>
+.chip-container {
+  min-height: 34px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+}
+.chip-container .chip {
+  margin: 4px;
+  background: #e0e0e0;
+  padding: 5px 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+.chip-container .chip i {
+  cursor: pointer;
+  opacity: 0.56;
+  margin-left: 8px;
+}
+</style>

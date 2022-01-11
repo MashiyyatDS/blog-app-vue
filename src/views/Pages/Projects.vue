@@ -16,7 +16,47 @@
         </nav>
 
         <ul class="list-group">
-          <li class="list-group-item" v-for="project in getProjects" :key="project.id">
+          <li class="list-group-item preloaders" v-if="isLoading">
+            <p class="card-text placeholder-glow">
+              <span class="placeholder col-7"></span>
+              <span class="placeholder col-7"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-6"></span>
+              <span class="placeholder col-8"></span>
+            </p>
+            <hr>
+            <p class="card-text placeholder-glow">
+              <span class="placeholder col-7"></span>
+              <span class="placeholder col-7"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-6"></span>
+              <span class="placeholder col-8"></span>
+            </p>
+            <hr>
+            <p class="card-text placeholder-glow">
+              <span class="placeholder col-7"></span>
+              <span class="placeholder col-7"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-6"></span>
+              <span class="placeholder col-8"></span>
+            </p>
+            <hr>
+            <p class="card-text placeholder-glow">
+              <span class="placeholder col-7"></span>
+              <span class="placeholder col-7"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-6"></span>
+              <span class="placeholder col-8"></span>
+            </p>
+          </li>
+          <li class="list-group-item" 
+            v-for="project in getProjects" 
+            :key="project.id"
+            data-aos="fade-in">
             <div class="row mb-3">
               <div class="col-md-6 p-1">
                 <div class="project-image-container">
@@ -57,7 +97,7 @@
               </div>
             </div>
           </li>
-          <li class="list-group-item pagination-container d-flex justify-content-center mb-3">
+          <li class="list-group-item pagination-container d-flex justify-content-center mb-3" v-if="!isLoading">
             <Pagination 
               v-bind:linkData="getProjectLinks"
               v-on:emitLink="fetchProjects"/>
@@ -80,13 +120,13 @@ export default {
     Sidebar, Offcanvas, Pagination
   },
   computed: {
-    ...mapGetters(['getProjects', 'getProjectLinks'])
+    ...mapGetters(['getProjects', 'getProjectLinks', 'isLoading'])
   },
   methods: {
     ...mapActions(['fetchProjects'])
   },
   created() {
-    this.fetchProjects('api/projects/limit/3')
+    this.fetchProjects('api/projects/limit/4')
   }
 }
 </script>
@@ -99,5 +139,16 @@ export default {
   }
   .accordion-item {
     border-radius: 0px!important;
+  }
+  .list-item {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .list-enter-active, .list-leave-active {
+    transition: all 1s;
+  }
+  .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateY(30px);
   }
 </style>
