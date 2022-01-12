@@ -85,6 +85,9 @@ const routes = [
     path: '/admin/add-blog',
     name: 'AddBlog',
     component: AddBlog,
+    beforeCreate() {
+      store.dispatch('auth')
+    },
     beforeEnter: (to, from, next) => {
       store.dispatch('auth')
       next()

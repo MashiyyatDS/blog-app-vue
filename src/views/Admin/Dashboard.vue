@@ -17,22 +17,30 @@
           <div class="col-md-4 p-1">
             <div class="card">
               <div class="card-body">
-                <h3>Blogs</h3>
-                This is some text within a card body.
+                <h3 class="mb-3">{{ dashboard.blogs }} Blogs</h3>
+                <div class="d-grid">
+                  <router-link to="/admin/blogs" class="btn btn-outline-primary btn-sm">View blogs</router-link>
+                </div>
               </div>
             </div>
           </div>
           <div class="col-md-4 p-1">
             <div class="card">
               <div class="card-body">
-                This is some text within a card body.
+                <h3 class="mb-3">{{ dashboard.artworks }} Artworks</h3>
+                <div class="d-grid">
+                  <router-link to="/admin/blogs" class="btn btn-outline-primary btn-sm">View artworks</router-link>
+                </div>
               </div>
             </div>
           </div>
           <div class="col-md-4 p-1">
             <div class="card">
               <div class="card-body">
-                This is some text within a card body.
+                <h3 class="mb-3">{{ dashboard.projects }} Projects</h3>
+                <div class="d-grid">
+                  <router-link to="/admin/projects" class="btn btn-outline-primary btn-sm">View projects</router-link>
+                </div>
               </div>
             </div>
           </div>
@@ -52,20 +60,15 @@ export default {
   components: {
     Sidebar, Offcanvas
   },
-  data() {
-    return {
-      blogUrl: '/api/blogs/paginate=10/category=blog'
-    }
-  },
   computed: {
-    ...mapGetters(['currentUser'])
+    ...mapGetters(['currentUser', 'dashboard'])
   },
   methods: {
-    ...mapActions(['getCurrentUser', 'fetchBlogs', 'fetchProjects'])
+    ...mapActions(['getCurrentUser', 'fetchDashboard'])
   },
   created() {
     this.getCurrentUser()
-    this.fetchBlogs(this.blogUrl)
+    this.fetchDashboard()
   }
 }
 </script>

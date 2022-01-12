@@ -1,9 +1,6 @@
 <template>
-  <div style="margin-top: 150px; text-align: center">
-    <h1>Page Not Found <i class="fa fa-times"></i></h1> <br>
-    <router-link to="/" class="btn btn-lg btn-outline-dark">
-      Go back
-    </router-link>
+  <div style="padding-top: 250px; text-align: center">
+    <h3>404 | Not found</h3>
   </div>
 </template>
 

@@ -16,67 +16,80 @@ function showLoader(message){
   })
 }
 
-const users = {
-  states : {
-    isAuthenticated: false,
-    currentUser: {}
-  },
+const state = {
+  isAuthenticated: false,
+  currentUser: [],
+  dashboard: {}
+}
   
-  getters : {
-    currentUser: (state) => state.currentUser,
-    isAuthenticated: (state) => state.isAuthenticated
-  },
-  
-  actions : {
-    getCurrentUser({ commit }) {
-      axios.get('/api/users')
-      .then(res => {
-        commit('setCurrentUser', res.data.user)
-        commit('setAuthenticatedUser', true)
-      })
-      .catch(err => {
-        commit('setCurrentUser', err.response.data.message)
-        commit('setAuthenticatedUser', false)
-      })
-    },
-  
-    loginUser({ commit }, data) {
-      showLoader("Loading....")
-      axios.post('api/users', data)
-      .then(res => {
-        console.log(res)
-        commit('setCurrentUser', res.data.user)
-        commit('setAuthenticatedUser', true)
-        localStorage.setItem('token', res.data.token)
-        window.location.href = "/admin/dashboard"
-      })
-      .catch(err => {
-        Swal.fire(err.response.data.message)
-        console.log(err.response)
-      })
-    }, 
+const getters = {
+  currentUser: (state) => state.currentUser,
+  isAuthenticated: (state) => state.isAuthenticated,
+  dashboard: (state) => state.dashboard
+}
 
-    guest() {
-      axios.get('/api/users')
-      .then(() => router.push({ path: '/' }))
-      .catch(err => {
-        console.log(err.response.data.message)
-      })
-    },
-
-    auth() {
-      axios.get('/api/users')
-      .catch(err => {
-        router.push({ path: '/login' })
-        console.log(err.response.data.message)
-      })
-    }
+const actions = {
+  getCurrentUser({ commit }) {
+    axios.get('/api/users')
+    .then(res => {
+      commit('setCurrentUser', res.data.user)
+      commit('setAuthenticatedUser', true)
+    })
+    .catch(err => {
+      commit('setCurrentUser', err.response.data.message)
+      commit('setAuthenticatedUser', false)
+    })
   },
-  
-  mutations : {
-    setCurrentUser: (state, user) => (state.currentUser = user),
-    setAuthenticatedUser: (state, condition) => (state.isAuthenticated = condition)
+
+  loginUser({ commit }, data) {
+    showLoader("Loading....")
+    axios.post('api/users', data)
+    .then(res => {
+      console.log(res)
+      commit('setCurrentUser', res.data.user)
+      commit('setAuthenticatedUser', true)
+      localStorage.setItem('token', res.data.token)
+      window.location.href = "/admin/dashboard"
+    })
+    .catch(err => {
+      Swal.fire(err.response.data.message)
+      console.log(err.response)
+    })
+  }, 
+
+  guest() {
+    axios.get('/api/users')
+    .then(() => router.push({ path: '/' }))
+    .catch(err => {
+      console.log(err.response.data.message)
+    })
+  },
+
+  auth() {
+    axios.get('/api/users')
+    .then()
+    .catch(err => {
+      router.push({ path: '/login' })
+      console.log(err.response.data.message)
+    })
+  },
+
+  fetchDashboard({ commit }) {
+    axios.get('api/users/dashboard')
+    .then(res => {
+      console.log(res)
+      commit('setDashboard', res.data)
+    })
+    .catch(err => console.log(err.response))
   }
 }
 
-export default users
+const mutations = {
+  setCurrentUser: (state, user) => (state.currentUser = user),
+  setAuthenticatedUser: (state, condition) => (state.isAuthenticated = condition),
+  setDashboard: (state, data) => (state.dashboard = data)
+}
+
+export default {
+  state, getters, actions, mutations
+}
