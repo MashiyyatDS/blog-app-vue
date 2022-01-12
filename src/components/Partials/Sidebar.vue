@@ -21,6 +21,16 @@
           <i class="fa fa-folder"></i> <span class="ms-3">Projects</span>
         </router-link>
       </li>
+      <li v-show="isAuthenticated">
+        <router-link to="/admin/dashboard" class="nav-link link-dark">
+          <i class="fa fa-list"></i> <span class="ms-3">Dashboard</span>
+        </router-link>
+      </li>
+      <li v-show="isAuthenticated">
+        <router-link to="/admin/dashboard" class="nav-link link-dark">
+          <i class="fa fa-sign-out"></i> <span class="ms-3">Logout</span>
+        </router-link>
+      </li>
       <div class="d-flex mt-3">
         <button class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-facebook"></i></button>
         <button class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-instagram"></i></button>
@@ -33,7 +43,15 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
-  name: 'Sidebar'
+  name: 'Sidebar',
+  computed: {
+    ...mapGetters(['isAuthenticated'])
+  },
+  methods: {
+    ...mapActions(['getCurrentUser'])
+  }
 }
 </script>

@@ -8,7 +8,7 @@
       <div class="col-lg-9 col-md-12">
         <nav class="navbar navbar navbar-dark bg-dark mb-3 sticky-top">
           <div class="container-fluid p-1">
-            <p class="navbar-title"><a class="navbar-brand" href="#"><i class="fa fa-folder"></i> {{ getProject.title }}</a></p>
+            <p class="navbar-title"><a class="navbar-brand" href="#"><i class="fa fa-folder"></i> Project</a></p>
             <button class="btn btn-outline-primary d-block d-lg-none d-sm-block d-xs-block" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
               <i class="fa fa-bars"></i>
             </button>

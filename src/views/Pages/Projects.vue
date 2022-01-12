@@ -78,9 +78,9 @@
                   </li>
                   <li class="list-group-item">
                     <div class="project-tags-container">
-                      <span class="badge bg-dark ms-1" v-for="tag in project.tags" :key="tag.id">
+                      <button class="btn btn-sm btn-outline-dark" v-for="tag in project.tags" :key="tag.id">
                         {{ tag.tag }}
-                      </span>
+                      </button>
                     </div>
                   </li>
                   <li class="list-group-item">
@@ -126,7 +126,7 @@ export default {
     ...mapActions(['fetchProjects'])
   },
   created() {
-    this.fetchProjects('api/projects/limit/4')
+    this.fetchProjects('api/projects/limit/5')
   }
 }
 </script>
@@ -140,15 +140,8 @@ export default {
   .accordion-item {
     border-radius: 0px!important;
   }
-  .list-item {
-    display: inline-block;
-    margin-right: 10px;
-  }
-  .list-enter-active, .list-leave-active {
-    transition: all 1s;
-  }
-  .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
-    opacity: 0;
-    transform: translateY(30px);
+  .project-tags-container button {
+    font-size: 13px;
+    margin: 1.5px;
   }
 </style>

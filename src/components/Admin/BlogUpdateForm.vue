@@ -26,25 +26,36 @@
                 </div>
               </li>
               <li class="list-group-item">
-                <div class="form-check">
-                  <input class="form-check-input" 
-                    type="checkbox"
-                    v-model="getBlog.isNsfw">
-                  <label class="form-check-label" for="defaultCheck1">
-                    Set NSFW content
-                  </label>
+                <div class="col-6">
+                  <div class="form-check">
+                    <input class="form-check-input" 
+                      type="checkbox"
+                      v-model="getBlog.isNsfw">
+                    <label class="form-check-label" for="defaultCheck1">
+                      Set NSFW content
+                    </label>
+                  </div>
                 </div>
               </li>
               <li class="list-group-item">
-                <div class="mb-3 p-1">
-                  <label for="formFile" class="form-label">Blog image: </label>
-                  <input class="form-control" type="file" @change="handleFile">
+                <div class="d-flex">
+                  <div class="col-6 p-1">
+                    <label for="formFile" class="form-label">Blog image: </label>
+                    <input class="form-control" type="file" @change="handleFile">
+                  </div>
+                  <div class="col-6 p-1">
+                    <label for="formFile" class="form-label">Blog category: </label>
+                    <select class="form-select" aria-label="Default select example" v-model="getBlog.category">
+                      <option value="blog">Blog</option>
+                      <option value="artwork">Artwork</option>
+                    </select>
+                  </div>
                 </div>
               </li>
               <li class="list-group-item">
                 <div class="chip-container">
-                  <div class="chip" v-for="(chip, i) of chips" :key="chip.label">
-                    {{chip}}
+                  <div class="chip" v-for="(chip, i) of getBlogTags" :key="chip.label">
+                    {{chip.tag}}
                     <i class="fa fa-times" @click="deleteChip(i)"></i>
                   </div>
                 </div>
@@ -57,7 +68,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
           </div>
         </div>
       </form>
@@ -72,31 +83,34 @@ export default {
   name: 'BlogUpdateForm',
   data() {
     return {
-      chips: [],
       currentChip: ''
     }
   },
   computed: {
-    ...mapGetters(['getBlog'])
+    ...mapGetters(['getBlog', 'getBlogTags'])
   },
   methods: {
     ...mapActions(['updateBlog']),
 
     submitBlog() {
+      let mapTags = this.getBlogTags.map(tag => tag.tag)
       const payload = {
-        id: this.getBlog.id,
-        blog: this.getBlog
+        blog: this.getBlog,
+        tags: mapTags
       }
+      // console.log(payload)
       this.updateBlog(payload)
     }, 
 
     saveChip() {
-      this.chips.push(this.currentChip)
-      this.currentChip = ""
+      if(this.currentChip != "") {
+        this.getBlogTags.push({ tag: this.currentChip })
+        this.currentChip = ""
+      }
     },
 
     deleteChip(i) {
-      this.chips.splice(i, 1)
+      this.getBlogTags.splice(i, 1)
     }
   }
 }

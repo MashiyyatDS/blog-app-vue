@@ -1,5 +1,5 @@
 <template>
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel" style="width: 300px;">
+  <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel" style="width: 300px;">
     <div class="offcanvas-body">
       <div class="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar" style="width: 280px;">
           <div class="logo-container mb-5">
@@ -14,7 +14,7 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/artworks" class="nav-link link-dark">
+          <router-link :to="{ path: '/artworks' }" class="nav-link link-dark">
             <i class="fa fa-image"></i> <span class="ms-3">Artworks</span>
           </router-link>
         </li>

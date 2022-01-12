@@ -12,7 +12,7 @@ import AdminProjects from '@/views/Admin/Projects'
 import AddBlog from '@/views/Admin/AddBlog'
 import AddProject from '@/views/Admin/AddProject'
 import NotFound from '@/views/Pages/NotFound'
-// import store from '@/store'
+import store from '@/store'
 
 const routes = [
   {
@@ -49,34 +49,55 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
-    meta: {
-      guest: true
+    beforeEnter: (to, from, next) => {
+      store.dispatch('guest')
+      next()
     }
   },
   {
     path: '/admin/dashboard',
     name: 'Dashboard',
-    component: Dashboard
+    component: Dashboard,
+    beforeEnter: (to, from, next) => {
+      store.dispatch('auth')
+      next()
+    }
   },
   {
     path: '/admin/blogs',
     name: 'AdminBlogs',
-    component: AdminBlogs
+    component: AdminBlogs,
+    beforeEnter: (to, from, next) => {
+      store.dispatch('auth')
+      next()
+    }
   },
   {
     path: '/admin/projects',
     name: 'AdminProjects',
-    component: AdminProjects
+    component: AdminProjects,
+    beforeEnter: (to, from, next) => {
+      store.dispatch('auth')
+      next()
+    }
   },
   {
     path: '/admin/add-blog',
     name: 'AddBlog',
-    component: AddBlog
+    component: AddBlog,
+    beforeEnter: (to, from, next) => {
+      store.dispatch('auth')
+      next()
+    }
   },
   {
     path: '/admin/add-project',
     name: 'AddProject',
-    component: AddProject
+    component: AddProject,
+    beforeEnter: (to, from, next) => {
+      store.dispatch('auth')
+      next()
+    }
   },
   {
     path: '/page-not-found',

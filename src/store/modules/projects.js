@@ -18,27 +18,25 @@ function showLoader(message){
 
 const state = {
   projects: [],
-  projectId: '',
   project: {
     title: '',
     description: '',
     link: '',
     repository: '',
     image: '',
-    user_id: 1
+    tags: [],
+    links: []
   },
-  projectLinks: {},
-  isLoading: true,
-  projectTags: []
+  isLoading: true
 }
 
 const getters = {
   project: (state) => state.project,
   getProject: (state) => state.project,
   getProjects: (state) => state.projects,
-  getProjectLinks: (state) => state.projectLinks,
+  getProjectLinks: (state) => state.project.links,
   isLoading: (state) => state.isLoading,
-  getProjectTags: (state) => state.projectTags
+  getProjectTags: (state) => state.project.tags
 }
 
 const actions = {
@@ -179,11 +177,10 @@ const actions = {
 
 const mutations = {
   setProject: (state, project) => (state.project = project),
-  setProjectTags: (state, tags) => (state.projectTags = tags),
+  setProjectTags: (state, tags) => (state.project.tags = tags),
   setProjects: (state, projects) => (state.projects = projects),
-  setProjectLinks: (state, links) => (state.projectLinks = links),
+  setProjectLinks: (state, links) => (state.project.links = links),
   setProjectImage: (state, image) => (state.project.image = image),
-  setProjectId: (state, projectId) => (state.projectId = projectId),
   updateProject: (state, project) => {
     let objIndex = state.projects.findIndex((obj => obj.id == project.id))
     state.projects[objIndex] = project

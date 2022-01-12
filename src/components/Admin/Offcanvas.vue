@@ -1,5 +1,5 @@
 <template>
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel" style="width: 300px;">
+  <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel" style="width: 300px;">
     <div class="offcanvas-body">
       <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar" style="width: 300px;">
         <div class="logo-container d-flex justify-content">
@@ -10,22 +10,28 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
           <li class="nav-item">
-            <a href="#" class="nav-link active" aria-current="page">
+            <router-link to="/" class="nav-link text-white">
+              <i class="fa fa-home"></i>
+              <span class="ms-3">Home</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/admin/dashboard" class="nav-link text-white">
               <i class="fa fa-dashboard"></i>
               <span class="ms-3">Dashboard</span>
-            </a>
+            </router-link>
           </li>
           <li>
-            <a href="#" class="nav-link text-white">
+            <router-link to="/admin/blogs" class="nav-link text-white">
               <i class="fa fa-book"></i>
               <span class="ms-3">Blogs</span>
-            </a>
+            </router-link>
           </li>
           <li>
-            <a href="#" class="nav-link text-white">
+            <router-link to="/admin/projects" class="nav-link text-white">
               <i class="fa fa-folder"></i>
               <span class="ms-3">Projects</span>
-            </a>
+            </router-link>
           </li>
           <li>
             <a href="#" class="nav-link text-white">

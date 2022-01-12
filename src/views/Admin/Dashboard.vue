@@ -13,6 +13,30 @@
           </button>
         </nav>
         <!-- NAVBAR HERE -->
+        <div class="row">
+          <div class="col-md-4 p-1">
+            <div class="card">
+              <div class="card-body">
+                <h3>Blogs</h3>
+                This is some text within a card body.
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 p-1">
+            <div class="card">
+              <div class="card-body">
+                This is some text within a card body.
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 p-1">
+            <div class="card">
+              <div class="card-body">
+                This is some text within a card body.
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -21,11 +45,27 @@
 <script>
 import Sidebar from '@/components/Admin/Sidebar'
 import Offcanvas from '@/components/Admin/Offcanvas'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Dashboard',
   components: {
     Sidebar, Offcanvas
+  },
+  data() {
+    return {
+      blogUrl: '/api/blogs/paginate=10/category=blog'
+    }
+  },
+  computed: {
+    ...mapGetters(['currentUser'])
+  },
+  methods: {
+    ...mapActions(['getCurrentUser', 'fetchBlogs', 'fetchProjects'])
+  },
+  created() {
+    this.getCurrentUser()
+    this.fetchBlogs(this.blogUrl)
   }
 }
 </script>

@@ -16,7 +16,7 @@
         </nav>
 
         <div class="row">
-          <ul class="list-group mb-1 artwork" v-for="artwork in getArtworks" :key="artwork.id">
+          <ul class="list-group mb-1 artwork" v-for="artwork in getArtworks" :key="artwork.id" data-aos="fade-in">
             <router-link :to="'/artworks/' + artwork.slug">
               <li class="list-group-item artwork-content-container d-flex justify-content-center">
                 <h3>{{ artwork.title }}</h3>

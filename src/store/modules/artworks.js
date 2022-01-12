@@ -1,4 +1,19 @@
 import axios from "axios"
+import Swal from "sweetalert2"
+
+function showLoader(message){
+  Swal.fire({
+    title: message,
+    html: `
+      <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    `,
+    showConfirmButton: false,
+    allowOutsideClick: false,
+    allowEscapeKey: false
+  })
+}
 
 const state = {
   artwork: {},
@@ -13,9 +28,12 @@ const getters = {
 
 const actions = {
   fetchArtworks({ commit }, url) {
-    window.scrollTo(0, 0)
+    showLoader("Loading...")
+    commit('setArtworks', {})
+    commit('setArtworkLinks', {})
     axios.get(url)
     .then(res => {
+      Swal.close()
       console.log(res)
       commit('setArtworks', res.data.blogs.data)
       commit('setArtworkLinks', res.data.blogs.links)

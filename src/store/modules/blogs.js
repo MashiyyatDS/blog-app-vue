@@ -23,7 +23,7 @@ const state = {
     content: '',
     isNsfw: 0,
     category: '',
-    user_id: 1
+    tags: []
   },
   blogLinks: {}
 }
@@ -31,15 +31,19 @@ const state = {
 const getters = {
   getBlogs: (state) => state.blogs,
   getBlog: (state) => state.blog,
-  getBlogLinks: (state) => state.blogLinks
+  getBlogLinks: (state) => state.blogLinks,
+  getBlogTags: (state) => state.blog.tags
 }
 
 const actions = {
   fetchBlogs({ commit }, url) {
+    showLoader("Loading...")
     commit("setBlogs",{})
     commit("setBlogLinks", {})
     axios.get(url)
     .then(res => {
+      console.log(res)
+      Swal.close()
       commit("setBlogs", res.data.blogs.data)
       commit("setBlogLinks", res.data.blogs.links)
     })
@@ -65,21 +69,29 @@ const actions = {
   },
 
   findBlog({ commit }, id) {
+    commit('setBlog', {})
+    commit('setBlogTags', {})
     axios.get(`api/blogs/${id}`)
     .then(res => {
-      console.log(res)
+      console.log(res.data.blog)
       commit('setBlog', res.data.blog)
+      commit('setBlogTags', res.data.blog.tags)
     })
     .catch(err => console.log(err.response))
   },
 
   updateBlog({ commit }, data) {
-    axios.put(`api/blogs/${data.id}`, data.blog)
+    showLoader("Updating...")
+    // ============== UPDATE BLOG DATA ===============
+    axios.put(`api/blogs/${data.blog.id}`, data.blog)
     .then(res => {
       Swal.fire("Blog updated")
-      console.log(res)
       commit('updateBlog', res.data.blog)
     })
+    .catch(err => console.log(err.response))
+    // ============ UPDATE BLOG TAGS ==============
+    axios.put(`api/blogs/${data.blog.id}/tags`, { tags: data.tags })
+    .then(res => console.log(res))
     .catch(err => console.log(err.response))
   },
 
@@ -95,6 +107,7 @@ const actions = {
 
   viewBlog({ commit }, slug) {
     showLoader("Loading...")
+    commit('setBlog', {})
     axios.get(`api/blogs/slug/${slug}`)
     .then(res => {
       Swal.close()
@@ -112,6 +125,7 @@ const mutations = {
   setBlogs: (state, blogs) => (state.blogs = blogs),
   setBlog: (state, blog) => (state.blog = blog),
   setBlogLinks: (state, links) => (state.blogLinks = links),
+  setBlogTags: (state, tags) => (state.blog.tags = tags),
   updateBlog: (state, blog) => {
     let objIndex = state.blogs.findIndex(obj => obj.id == blog.id)
     state.blogs[objIndex] = blog

@@ -70,7 +70,7 @@ export default {
   },
   data() {
     return {
-      url: '/api/blogs/paginate=3/category=blog'
+      url: '/api/blogs/paginate=5/category=blog'
     }
   },
   computed: {

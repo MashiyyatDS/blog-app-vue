@@ -8,6 +8,12 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
+        <router-link to="/" class="nav-link text-white">
+          <i class="fa fa-home"></i>
+          <span class="ms-3">Home</span>
+        </router-link>
+      </li>
+      <li class="nav-item">
         <router-link to="/admin/dashboard" class="nav-link text-white">
           <i class="fa fa-dashboard"></i>
           <span class="ms-3">Dashboard</span>
@@ -15,8 +21,8 @@
       </li>
       <li>
         <router-link to="/admin/blogs" class="nav-link text-white">
-          <i class="fa fa-book"></i>
-          <span class="ms-3">Blogs</span>
+          <i class="fa fa-image"></i>
+          <span class="ms-3">Blogs / Artworks</span>
         </router-link>
       </li>
       <li>
