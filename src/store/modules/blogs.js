@@ -42,7 +42,6 @@ const actions = {
     commit("setBlogLinks", {})
     axios.get(url)
     .then(res => {
-      console.log(res)
       Swal.close()
       commit("setBlogs", res.data.blogs.data)
       commit("setBlogLinks", res.data.blogs.links)
@@ -96,13 +95,25 @@ const actions = {
   },
 
   deleteBlog({ commit }, id) {
-    axios.delete(`api/blogs/${id}`)
-    .then(res => {
-      Swal.fire("Blog deleted")
-      console.log(res)
-      commit('deleteBlog', id)
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "The selected blog/artwork will be deleted.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#0d6efd',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it'
+    }).then(result => {
+      if (result.isConfirmed) {
+        axios.delete(`api/blogs/${id}`)
+        .then(res => {
+          Swal.fire("Blog deleted")
+          console.log(res)
+          commit('deleteBlog', id)
+        })
+        .catch(err => console.log(err.response))
+      }
     })
-    .catch(err => console.log(err.response))
   },
 
   viewBlog({ commit }, slug) {

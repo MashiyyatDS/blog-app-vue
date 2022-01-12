@@ -60,7 +60,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchArtworks'])
+    ...mapActions(['fetchArtworks', 'getCurrentUser'])
   },
   computed: {
     ...mapGetters(['getArtworks', 'getArtworkLinks'])

@@ -46,8 +46,18 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: 'Offcanvas'
+  name: 'OffCanvas',
+  computed: {
+    ...mapGetters(['isAuthenticated'])
+  },
+  methods: {
+    ...mapActions(['getCurrentUser'])
+  },
+  created() {
+    this.getCurrentUser()
+  }
 }
 </script>
 

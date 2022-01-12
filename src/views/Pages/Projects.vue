@@ -123,7 +123,7 @@ export default {
     ...mapGetters(['getProjects', 'getProjectLinks', 'isLoading'])
   },
   methods: {
-    ...mapActions(['fetchProjects'])
+    ...mapActions(['fetchProjects', 'getCurrentUser'])
   },
   created() {
     this.fetchProjects('api/projects/limit/5')

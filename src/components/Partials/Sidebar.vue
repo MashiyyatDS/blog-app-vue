@@ -6,6 +6,11 @@
       </a>
     </div>
     <ul class="nav nav-pills flex-column mb-auto">
+      <li v-show="isAuthenticated">
+        <router-link to="/admin/dashboard" class="nav-link link-dark">
+          <i class="fa fa-list"></i> <span class="ms-3">Dashboard</span>
+        </router-link>
+      </li>
       <li>
         <router-link to="/" class="nav-link link-dark">
           <i class="fa fa-book"></i> <span class="ms-3">Blogs</span>
@@ -23,28 +28,22 @@
       </li>
       <li v-show="isAuthenticated">
         <router-link to="/admin/dashboard" class="nav-link link-dark">
-          <i class="fa fa-list"></i> <span class="ms-3">Dashboard</span>
-        </router-link>
-      </li>
-      <li v-show="isAuthenticated">
-        <router-link to="/admin/dashboard" class="nav-link link-dark">
           <i class="fa fa-sign-out"></i> <span class="ms-3">Logout</span>
         </router-link>
       </li>
       <div class="d-flex mt-3">
-        <button class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-facebook"></i></button>
-        <button class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-instagram"></i></button>
-        <button class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-github"></i></button>
-        <button class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-linkedin"></i></button>
-        <button class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-twitter"></i></button>
+        <a href="" class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-facebook"></i></a>
+        <a class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-instagram"></i></a>
+        <a href="https://github.com/Mash-min" class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-github"></i></a>
+        <a class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-linkedin"></i></a>
+        <a class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-twitter"></i></a>
       </div>
     </ul>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Sidebar',
   computed: {
@@ -52,6 +51,9 @@ export default {
   },
   methods: {
     ...mapActions(['getCurrentUser'])
+  },
+  created() {
+    this.getCurrentUser()
   }
 }
 </script>

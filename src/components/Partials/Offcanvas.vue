@@ -8,19 +8,29 @@
         </a>
       </div>
       <ul class="nav nav-pills flex-column mb-auto">
+        <li v-show="isAuthenticated">
+          <router-link to="/admin/dashboard" class="nav-link link-dark">
+            <i class="fa fa-list"></i> <span class="ms-3">Dashboard</span>
+          </router-link>
+        </li>
         <li>
           <router-link to="/" class="nav-link link-dark">
             <i class="fa fa-book"></i> <span class="ms-3">Blogs</span>
           </router-link>
         </li>
         <li>
-          <router-link :to="{ path: '/artworks' }" class="nav-link link-dark">
+          <router-link to="/artworks" class="nav-link link-dark">
             <i class="fa fa-image"></i> <span class="ms-3">Artworks</span>
           </router-link>
         </li>
         <li>
           <router-link to="/projects" class="nav-link link-dark">
             <i class="fa fa-folder"></i> <span class="ms-3">Projects</span>
+          </router-link>
+        </li>
+        <li v-show="isAuthenticated">
+          <router-link to="/admin/dashboard" class="nav-link link-dark">
+            <i class="fa fa-sign-out"></i> <span class="ms-3">Logout</span>
           </router-link>
         </li>
         <div class="d-flex mt-3">
@@ -38,6 +48,7 @@
 
 <script>
 export default {
-  name: 'Offcanvas'
+  name: 'Offcanvas',
+  props: ['isAuthenticated']
 }
 </script>

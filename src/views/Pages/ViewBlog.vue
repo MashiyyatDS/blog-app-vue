@@ -16,7 +16,7 @@
         </nav>
 
         <ul class="list-group mb-3">
-          <li class="list-group-item">
+          <li class="list-group-item" style="padding: 0px">
             <div class="art-image-container">
               <img v-bind:src="getBlog.image" alt="">
             </div>
@@ -69,6 +69,6 @@ export default {
 
 <style scoped>
   .art-image-container img {
-    border-radius: 10px;
+    border-radius: 0px;
   }
 </style>
