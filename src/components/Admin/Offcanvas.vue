@@ -34,10 +34,10 @@
             </router-link>
           </li>
           <li>
-            <a href="#" class="nav-link text-white">
+            <button class="nav-link text-white" @click="logoutUser">
               <i class="fa fa-sign-out"></i>
               <span class="ms-3">Logout</span>
-            </a>
+            </button>
           </li>
         </ul>
       </div>
@@ -46,17 +46,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'OffCanvas',
-  computed: {
-    ...mapGetters(['isAuthenticated'])
-  },
   methods: {
-    ...mapActions(['getCurrentUser'])
-  },
-  created() {
-    this.getCurrentUser()
+    ...mapActions(['logoutUser'])
   }
 }
 </script>

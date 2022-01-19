@@ -32,17 +32,22 @@
         </router-link>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
+        <button href="#" class="nav-link text-white" @click="logoutUser">
           <i class="fa fa-sign-out"></i>
           <span class="ms-3">Logout</span>
-        </a>
+        </button>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
-  name: 'Sidebar'
+  name: 'Sidebar',
+  methods: {
+    ...mapActions(['logoutUser'])
+  }
 }
 </script>

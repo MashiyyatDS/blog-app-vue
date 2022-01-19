@@ -15,7 +15,7 @@
           </div>
         </nav>
 
-        <ul class="list-group">
+        <ul class="list-group p-1">
           <li class="list-group-item" v-for="blog in getBlogs" :key="blog.id" data-aos="fade-in">
             <div class="row blog">
               <div class="col-md-6">

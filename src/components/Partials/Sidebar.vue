@@ -27,9 +27,9 @@
         </router-link>
       </li>
       <li v-show="isAuthenticated">
-        <router-link to="/admin/dashboard" class="nav-link link-dark">
+        <button class="nav-link link-dark" @click="logoutUser">
           <i class="fa fa-sign-out"></i> <span class="ms-3">Logout</span>
-        </router-link>
+        </button>
       </li>
       <div class="d-flex mt-3">
         <a href="" class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-facebook"></i></a>
@@ -50,10 +50,10 @@ export default {
     ...mapGetters(['isAuthenticated'])
   },
   methods: {
-    ...mapActions(['getCurrentUser'])
+    ...mapActions(['authenticateUser', 'logoutUser'])
   },
   created() {
-    this.getCurrentUser()
+    this.authenticateUser()
   }
 }
 </script>

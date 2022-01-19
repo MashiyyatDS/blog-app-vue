@@ -34,7 +34,6 @@ const actions = {
     axios.get(url)
     .then(res => {
       Swal.close()
-      console.log(res)
       commit('setArtworks', res.data.blogs.data)
       commit('setArtworkLinks', res.data.blogs.links)
     })

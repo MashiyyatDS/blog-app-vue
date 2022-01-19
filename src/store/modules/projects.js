@@ -26,8 +26,7 @@ const state = {
     image: '',
     tags: [],
     links: []
-  },
-  isLoading: true
+  }
 }
 
 const getters = {
@@ -35,7 +34,6 @@ const getters = {
   getProject: (state) => state.project,
   getProjects: (state) => state.projects,
   getProjectLinks: (state) => state.project.links,
-  isLoading: (state) => state.isLoading,
   getProjectTags: (state) => state.project.tags
 }
 
@@ -82,14 +80,14 @@ const actions = {
   },
 
   fetchProjects({ commit }, url) {
-    commit("setLoading", true)
+    showLoader("Loading...")
     commit("setProjects", {})
     commit("setProjectLinks", {})
     axios.get(url)
     .then(res => {
+      Swal.close()
       commit("setProjects", res.data.projects.data)
       commit("setProjectLinks", res.data.projects.links)
-      commit("setLoading", false)
     })
     .catch(err => console.log(err.response))
   },
@@ -188,8 +186,7 @@ const mutations = {
   removeProject: (state, id) => {
     let objIndex = state.projects.findIndex(obj => obj.id == id)
     state.projects.splice(objIndex, 1)
-  },
-  setLoading: (state, condition) => (state.isLoading = condition)
+  }
 }
 
 export default {

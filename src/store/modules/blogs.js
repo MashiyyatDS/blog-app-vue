@@ -72,7 +72,6 @@ const actions = {
     commit('setBlogTags', {})
     axios.get(`api/blogs/${id}`)
     .then(res => {
-      console.log(res.data.blog)
       commit('setBlog', res.data.blog)
       commit('setBlogTags', res.data.blog.tags)
     })

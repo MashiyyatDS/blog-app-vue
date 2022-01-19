@@ -33,9 +33,9 @@
             </div>
           </li>
           <li class="list-group-item">
-            <router-link to="/admin/add-blog" class="btn btn-sm btn-outline-primary ms-1">
+            <a href="/admin/add-blog" class="btn btn-sm btn-outline-primary ms-1">
               <i class="fa fa-plus"></i> Add Blog / Artwork
-            </router-link>
+            </a>
           </li>
           <li class="list-group-item table-container">
             <table class="table table-hover">

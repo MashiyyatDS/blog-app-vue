@@ -7,6 +7,7 @@ import ViewArtwork from '@/views/Pages/ViewArtwork'
 import ViewProject from '@/views/Pages/ViewProject'
 import Login from '@/views/Pages/Login'
 import Dashboard from '@/views/Admin/Dashboard'
+import AccountSettings from '@/views/Admin/AccountSettings'
 import AdminBlogs from '@/views/Admin/Blogs'
 import AdminProjects from '@/views/Admin/Projects'
 import AddBlog from '@/views/Admin/AddBlog'
@@ -49,57 +50,56 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
-    beforeEnter: (to, from, next) => {
-      store.dispatch('guest')
-      next()
+    meta: {
+      requireGuest: true
     }
   },
   {
     path: '/admin/dashboard',
     name: 'Dashboard',
     component: Dashboard,
-    beforeEnter: (to, from, next) => {
-      store.dispatch('auth')
-      next()
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/admin/account-settings',
+    name: 'AccountSettings',
+    component: AccountSettings,
+    meta: {
+      requireAuth: true
     }
   },
   {
     path: '/admin/blogs',
     name: 'AdminBlogs',
     component: AdminBlogs,
-    beforeEnter: (to, from, next) => {
-      store.dispatch('auth')
-      next()
+    meta: {
+      requireAuth: true
     }
   },
   {
     path: '/admin/projects',
     name: 'AdminProjects',
     component: AdminProjects,
-    beforeEnter: (to, from, next) => {
-      store.dispatch('auth')
-      next()
+    meta: {
+      requireAuth: true
     }
   },
   {
     path: '/admin/add-blog',
     name: 'AddBlog',
     component: AddBlog,
-    beforeCreate() {
-      store.dispatch('auth')
-    },
-    beforeEnter: (to, from, next) => {
-      store.dispatch('auth')
-      next()
+    meta: {
+      requireAuth: true
     }
   },
   {
     path: '/admin/add-project',
     name: 'AddProject',
     component: AddProject,
-    beforeEnter: (to, from, next) => {
-      store.dispatch('auth')
-      next()
+    meta: {
+      requireAuth: true
     }
   },
   {
@@ -116,6 +116,18 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requireAuth == true)) {
+    store.dispatch('auth')
+    next()
+  } else if (to.matched.some(record => record.meta.requireGuest == true)) {
+    store.dispatch('guest')
+    next()
+  } else {
+    next()
+  }
 })
 
 export default router

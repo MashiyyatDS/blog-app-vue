@@ -29,13 +29,14 @@ const getters = {
 }
 
 const actions = {
-  getCurrentUser({ commit }) {
+  authenticateUser({ commit }) {
     axios.get('/api/users')
     .then(res => {
       commit('setCurrentUser', res.data.user)
       commit('setAuthenticatedUser', true)
     })
     .catch(err => {
+      console.clear()
       commit('setCurrentUser', err.response.data.message)
       commit('setAuthenticatedUser', false)
     })
@@ -57,28 +58,50 @@ const actions = {
     })
   }, 
 
-  guest() {
-    axios.get('/api/users')
-    .then(() => router.push({ path: '/' }))
-    .catch(err => {
-      console.log(err.response.data.message)
+  logoutUser() {
+    showLoader("Logging out...")
+    axios.post('api/users/logout')
+    .then(() => {
+      localStorage.removeItem('token')
+      window.location.href = "/"
     })
+    .catch(err => console.log(err.response))
   },
 
-  auth() {
+  guest() {
     axios.get('/api/users')
-    .then()
-    .catch(err => {
-      router.push({ path: '/login' })
-      console.log(err.response.data.message)
+    .then(() => { 
+      router.push({ path: '/page-not-found' })
+      return false 
     })
+    .catch((err) => console.log(err.response))
+  },
+
+  auth({ commit }) {
+    axios.get('/api/users')
+    .then(() => { 
+      commit('setAuthenticatedUser', true)
+      return true 
+    })
+    .catch(() => router.push({ path: '/login' }))
   },
 
   fetchDashboard({ commit }) {
+    showLoader("Loading...")
     axios.get('api/users/dashboard')
     .then(res => {
-      console.log(res)
+      Swal.close()
       commit('setDashboard', res.data)
+    })
+    .catch(err => console.log(err.response))
+  },
+
+  updateUser({ commit }, data) {
+    showLoader("Updating...")
+    axios.put('api/users', data)
+    .then(res => {
+      Swal.fire("Account updated")
+      commit('setCurrentUser', res.data.user)
     })
     .catch(err => console.log(err.response))
   }
