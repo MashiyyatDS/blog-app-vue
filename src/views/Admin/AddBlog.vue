@@ -120,28 +120,13 @@ export default {
     },
 
     submitBlog() {
-      this.uploadImage()
-    },
-
-    uploadImage() {
-      const data = new FormData()
-      data.append('file', this.file)
-      data.append('upload_preset', 't8j7klfq')
-      fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
-        body: data,
-        method: 'POST'
-      }).then(res => {
-        return res.json()
-      }).then(data => {
-        this.blog.image = data.url
-        const payload = {
-          blog: this.blog,
-          tags: this.chips
-        }
-        this.addBlog(payload)
-      })
+      let payload = {
+        image: this.file,
+        blog: this.blog,
+        tags: [...this.chips]
+      }
+      this.addBlog(payload)
     }
-    // =============== UPLOAD IMAGE TO CLOUDINARY ===============
   }
 }
 </script>

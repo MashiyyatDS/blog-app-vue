@@ -1,20 +1,7 @@
 import axios from "axios"
 import Swal from "sweetalert2"
 import router from '@/router'
-
-function showLoader(message){
-  Swal.fire({
-    title: message,
-    html: `
-      <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    `,
-    showConfirmButton: false,
-    allowOutsideClick: false,
-    allowEscapeKey: false
-  })
-}
+import showLoader from '@/loader'
 
 const state = {
   blogs: [],
@@ -36,35 +23,53 @@ const getters = {
 }
 
 const actions = {
-  fetchBlogs({ commit }, url) {
+  async fetchBlogs({ commit }, url) {
     showLoader("Loading...")
-    commit("setBlogs",{})
+    commit("setBlogs", {})
     commit("setBlogLinks", {})
-    axios.get(url)
-    .then(res => {
+    try {
+      const response = await axios.get(url)
       Swal.close()
-      commit("setBlogs", res.data.blogs.data)
-      commit("setBlogLinks", res.data.blogs.links)
-    })
-    .catch(err => console.log(err.response)) 
+      commit("setBlogs", response.data.blogs.data)
+      commit("setBlogLinks", response.data.blogs.links)
+    } catch (error) {
+      console.error(error.response)
+    }
   },
 
-  addBlog({ commit }, payload) {
-    axios.post('/api/blogs', payload.blog)
-    .then(res => {
-      console.log(res)
-      axios.post('api/tags', {
-        tags: payload.tags,
-        blog_id: res.data.blog.id
+  async addBlog(_, payload) {
+    showLoader("Adding blog...")
+    let formData = new FormData()
+    formData.append('file', payload.image)
+    formData.append('upload_preset', 't8j7klfq')
+    try {
+      // =================== Upload image to cloudinary ===================
+      const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
+        body: formData,
+        method: 'POST'
+      }).then(res => { return res.json() }).then(data => { return data })
+      let imageName = image.url
+  
+      const blog = await axios.post('/api/blogs', {
+        title: payload.blog.title,
+        content: payload.blog.content,
+        category: payload.blog.category,
+        isNsfw: payload.blog.isNsfw,
+        user_id: payload.blog.user_id,
+        image: imageName
       })
-      .then(res => {
-        console.log(res)
-        Swal.fire("Blog added")
+      console.log(blog)
+  
+      const tags = await axios.post('api/tags', {
+        blog_id: blog.data.blog.id,
+        tags: payload.tags
       })
-      .catch(err => console.log(err.response))
-      commit('setBlog')
-    })
-    .catch(err => console.log(err.response))
+      console.log(tags)
+      Swal.fire({ title: 'Blog added', icon: 'success' })
+    } catch (error) {
+      Swal.close()
+      console.error(error.response)
+    }
   },
 
   findBlog({ commit }, id) {
@@ -104,6 +109,7 @@ const actions = {
       confirmButtonText: 'Yes, delete it'
     }).then(result => {
       if (result.isConfirmed) {
+        showLoader("Deleting blog...")
         axios.delete(`api/blogs/${id}`)
         .then(res => {
           Swal.fire("Blog deleted")
