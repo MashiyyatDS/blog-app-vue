@@ -43,14 +43,21 @@
                 <tr>
                   <th scope="col">Title</th>
                   <th scope="col">Date posted</th>
+                  <th scope="col">Set NSFW content</th>
                   <th scope="col">Category</th>
                   <th scope="col">Options</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="blog in getBlogs" :key="blog.id" v-bind:class="{ 'table-danger' : blog.isNsfw == true }">
+                <tr v-for="blog in getBlogs" :key="blog.id" :class="{ 'table-danger' : blog.isNsfw == true }">
                   <td>{{ blog.title }}</td>
                   <td>{{ blog.created_at }}</td>
+                  <td>
+                    <div class="form-check form-switch d-flex justify-content-center">
+                      <input v-if="blog.isNsfw" class="form-check-input" type="checkbox" role="switch" checked>
+                      <input v-else class="form-check-input" type="checkbox" role="switch">
+                    </div>
+                  </td>
                   <td>{{ blog.category }}</td>
                   <td>
                     <button class="btn btn-sm btn-outline-success ms-1" 

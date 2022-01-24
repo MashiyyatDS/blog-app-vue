@@ -29,16 +29,16 @@
           </router-link>
         </li>
         <li v-show="isAuthenticated">
-          <router-link to="/admin/dashboard" class="nav-link link-dark">
+          <button class="nav-link link-dark" @click="logoutUser">
             <i class="fa fa-sign-out"></i> <span class="ms-3">Logout</span>
-          </router-link>
+          </button>
         </li>
         <div class="d-flex mt-3">
-          <button class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-facebook"></i></button>
-          <button class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-instagram"></i></button>
-          <button class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-github"></i></button>
-          <button class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-linkedin"></i></button>
-          <button class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-twitter"></i></button>
+          <a href="" class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-facebook"></i></a>
+          <a class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-instagram"></i></a>
+          <a href="https://github.com/Mash-min" class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-github"></i></a>
+          <a class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-linkedin"></i></a>
+          <a class="btn-sm btn btn-outline-dark ms-1"><i class="fa fa-twitter"></i></a>
         </div>
       </ul>
       </div>
@@ -47,8 +47,18 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'Offcanvas',
-  props: ['isAuthenticated']
+  computed: {
+    ...mapGetters(['isAuthenticated'])
+  },
+  methods: {
+    ...mapActions(['authenticateUser', 'logoutUser'])
+  },
+  created() {
+    this.authenticateUser()
+  }
 }
 </script>

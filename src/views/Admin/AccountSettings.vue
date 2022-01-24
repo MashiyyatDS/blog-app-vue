@@ -55,22 +55,32 @@
             <li class="list-group-item">
               <div class="col-md-12 p-1">
                 <div class="mb-3">
-                  <label>New password: </label>
-                  <input type="password" class="form-control" placeholder="Enter your new password">
+                  <label>Current password: </label>
+                  <input type="password" class="form-control" placeholder="Enter your current password" v-model="current_password">
                 </div>
               </div>
             </li>
             <li class="list-group-item">
               <div class="col-md-12 p-1">
                 <div class="mb-3">
-                  <label>Password confirmation: </label>
-                  <input type="password" class="form-control" placeholder="Re-Enter your new password">
+                  <label>New password: </label>
+                  <input type="password" class="form-control" placeholder="Enter your new password" v-model="password">
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="col-md-12 p-1">
+                <div class="mb-3">
+                  <label>Re-enter new password: </label>
+                  <input type="password" class="form-control" placeholder="Re-Enter your new password" v-model="password_confirmation">
                 </div>
               </div>
             </li>
             <li class="list-group-item">
               <div class="col-6 d-grid">
-                <button class="btn btn-primary"><i class="fa fa-save"></i> Save password</button>
+                <button class="btn btn-primary" @click="submitPassword">
+                  <i class="fa fa-save"></i> Save password
+                </button>
               </div>
             </li>
           </ul>
@@ -90,14 +100,30 @@ export default {
   components: {
     Sidebar, Offcanvas
   },
+  data() {
+    return {
+      current_password: '',
+      password: '',
+      password_confirmation: ''
+    }
+  },
   computed: {
     ...mapGetters(['currentUser'])
   },
   methods: {
-    ...mapActions(['authenticateUser', 'updateUser']), 
+    ...mapActions(['authenticateUser', 'updateUser', 'resetPassword']), 
 
     submitAccountForm() {
       this.updateUser(this.currentUser)
+    },
+
+    submitPassword() {
+      let payload = {
+        current_password: this.current_password,
+        password: this.password,
+        password_confirmation: this.password_confirmation
+      }
+      this.resetPassword(payload)
     }
   },
   created() {

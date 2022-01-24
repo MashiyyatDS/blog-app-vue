@@ -1,20 +1,7 @@
 import axios from "axios"
 import router from '@/router'
 import Swal from "sweetalert2"
-
-function showLoader(message){
-  Swal.fire({
-    title: message,
-    html: `
-      <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    `,
-    showConfirmButton: false,
-    allowOutsideClick: false,
-    allowEscapeKey: false
-  })
-}
+import showLoader from '@/loader'
 
 const state = {
   isAuthenticated: false,
@@ -59,13 +46,24 @@ const actions = {
   }, 
 
   logoutUser() {
-    showLoader("Logging out...")
-    axios.post('api/users/logout')
-    .then(() => {
-      localStorage.removeItem('token')
-      window.location.href = "/"
+    Swal.fire({
+      title: 'Are you sure you want to logout?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#0d6efd',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Logout',
+    }).then(result => {
+      if(result.isConfirmed) {
+        showLoader("Logging out...")
+        axios.post('api/users/logout')
+        .then(() => {
+          localStorage.removeItem('token')
+          window.location.href = "/"
+        })
+        .catch(err => console.log(err.response))
+      }
     })
-    .catch(err => console.log(err.response))
   },
 
   guest() {
@@ -80,10 +78,14 @@ const actions = {
   auth({ commit }) {
     axios.get('/api/users')
     .then(() => { 
+      Swal.close()
       commit('setAuthenticatedUser', true)
       return true 
     })
-    .catch(() => router.push({ path: '/login' }))
+    .catch(() => {
+      Swal.close()
+      router.push({ path: '/login' })
+    })
   },
 
   fetchDashboard({ commit }) {
@@ -104,6 +106,15 @@ const actions = {
       commit('setCurrentUser', res.data.user)
     })
     .catch(err => console.log(err.response))
+  },
+
+  async resetPassword(_, payload) {
+    try {
+      const response = await axios.put('api/users/reset-password', payload)
+      Swal.fire({ title: response.data.message, icon: 'success' })
+    } catch (error) {
+      console.log(error.response)
+    }
   }
 }
 

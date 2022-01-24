@@ -105,7 +105,6 @@ export default {
 
     handleFile(e) {
       this.file = e.target.files[0]
-      console.log(this.file)
     },
 
     submitProject() {

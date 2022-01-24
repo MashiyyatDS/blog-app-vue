@@ -82,7 +82,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getProjects', 'getProject', 'getProjectLinks', 'isLoading'])
+    ...mapGetters(['getProjects', 'getProject', 'getProjectLinks'])
   },
   methods: {
     ...mapActions(['fetchProjects', 'findProject', 'deleteProject', 'searchProject']), 
@@ -92,7 +92,9 @@ export default {
     },
 
     submitSearch() {
-      this.searchProject(this.search)
+      if(!this.search == "") {
+        this.searchProject(this.search)
+      }
     }
   },
   created() {

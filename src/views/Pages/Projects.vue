@@ -49,7 +49,7 @@
                   <li class="list-group-item">
                     <div class="d-flex">
                       <div class="d-grid col-6 p-1">
-                        <a v-bind:href="project.link" class="btn btn-sm btn-primary">Demo</a>
+                        <a :href="project.link" class="btn btn-sm btn-primary">Demo</a>
                       </div>
                       <div class="d-grid col-6 p-1">
                         <a v-bind:href="project.repository" class="btn btn-sm btn-dark">Code</a>
@@ -60,7 +60,7 @@
               </div>
             </div>
           </li>
-          <li class="list-group-item pagination-container d-flex justify-content-center mb-3" v-if="!isLoading">
+          <li class="list-group-item pagination-container d-flex justify-content-center mb-3">
             <Pagination 
               v-bind:linkData="getProjectLinks"
               v-on:emitLink="fetchProjects"/>
@@ -83,7 +83,7 @@ export default {
     Sidebar, Offcanvas, Pagination
   },
   computed: {
-    ...mapGetters(['getProjects', 'getProjectLinks', 'isLoading'])
+    ...mapGetters(['getProjects', 'getProjectLinks'])
   },
   methods: {
     ...mapActions(['fetchProjects', 'getCurrentUser'])

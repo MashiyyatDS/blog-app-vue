@@ -1,20 +1,7 @@
 import axios from "axios"
 import Swal from 'sweetalert2'
 import router from '@/router'
-
-function showLoader(message){
-  Swal.fire({
-    title: message,
-    html: `
-      <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    `,
-    showConfirmButton: false,
-    allowOutsideClick: false,
-    allowEscapeKey: false
-  })
-}
+import showLoader from '@/loader'
 
 const state = {
   projects: [],
@@ -38,58 +25,51 @@ const getters = {
 }
 
 const actions = {
-  addProject({ commit }, data) {
-    // ============= 1. UPLOAD IMAGE ==============
-    showLoader("Uploading project...")
-    const formData = new FormData()
-    formData.append('file', data.image)
+  async addProject(_, payload) {
+    showLoader("Adding Project...")
+    let formData = new FormData()
+    formData.append('file', payload.image)
     formData.append('upload_preset', 'jsa0dt26')
-    fetch("https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload", {
-      body: formData,
-      method: 'POST'
-    })
-    .then(res => { return res.json() })
-    .then(response => {
-      // ============= 2. ADD PROJECT TO DB ==============
-      console.log(response)
-      axios.post('api/projects', {
-        title: data.project.title,
-        description: data.project.description,
-        link: data.project.link,
-        repository: data.project.repository,
-        image: response.url,
-        user_id: 1
+    try {
+      // =================== Upload image to cloudinary ===================
+      const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
+        body: formData,
+        method: 'POST'
+      }).then(res => { return res.json() }).then(data => { return data })
+      let imageName = image.url
+      // =================== Upload project data ===================
+      const project = await axios.post('api/projects', {
+        title: payload.project.title,
+        description: payload.project.description,
+        link: payload.project.link,
+        repository: payload.project.repository,
+        image: imageName
       })
-      .then(res => {
-        // ============= 3. ADD PROJECT TO TAGS TO DB ==============
-        commit('setProject', res.data.project)
-        axios.post('api/project-tags', {
-          tags: data.tags,
-          project_id: res.data.project.id
-        })
-        Swal.fire("Project Added!")
-        .then(res => {
-          console.log(res)})
-        .catch(err => console.log(err.response))
-        // =========================================================
+      let projectId = project.data.project.id
+      // =================== Upload project tags ===================
+      axios.post('api/project-tags', {
+        tags: payload.tags,
+        project_id: projectId
       })
-      .catch(err => console.log(err.response))
-      // ==================================================
-    })
-    .catch(err => console.log(err.response))
+
+      Swal.fire({title: "Project added", icon: 'success' })
+    }catch (error) {
+      console.error(error.response)
+    }
   },
 
-  fetchProjects({ commit }, url) {
+  async fetchProjects({ commit }, url) {
     showLoader("Loading...")
     commit("setProjects", {})
     commit("setProjectLinks", {})
-    axios.get(url)
-    .then(res => {
+    try {
+      const response = await axios.get(url)
+      commit("setProjects", response.data.projects.data)
+      commit("setProjectLinks", response.data.projects.links)
       Swal.close()
-      commit("setProjects", res.data.projects.data)
-      commit("setProjectLinks", res.data.projects.links)
-    })
-    .catch(err => console.log(err.response))
+    } catch (error) {
+      console.error(error.response)
+    }
   },
 
   deleteProject({ commit }, id) {
@@ -105,9 +85,8 @@ const actions = {
       if(result.isConfirmed) {
         axios.delete(`api/projects/${id}`)
         .then(res => {
-          console.log(res)
           commit("removeProject", id)
-          Swal.fire("Project deleted")
+          Swal.fire({title: res.data.message, icon: 'success' })
         })
         .catch(err => console.log(err.response))
       }

@@ -30,11 +30,11 @@
                     <small class="text-muted">Posted at {{ blog.created_at }}</small>
                   </li>
                   <li class="list-group-item blog-content-container">
-                    <small class="text-muted">Author: {{ blog.user.firstname + " " + blog.user.lastname }}</small>
+                    <small class="text-muted">Author: <span class="fw-bolder">{{ blog.user.firstname + " " + blog.user.lastname }}</span></small>
                   </li>
                   <li class="list-group-item">
-                    <button class="btn btn-sm btn-outline-dark ms-1 mb-1" v-for="tag in blog.tags" :key="tag.id">
-                      <i class="fa fa-tag"></i> {{ tag.tag }}
+                    <button class="btn btn-sm btn-outline-dark ms-1 mb-1 disabled" v-for="tag in blog.tags" :key="tag.id">
+                      {{ tag.tag }}
                     </button>
                   </li>
                   <li class="list-group-item">

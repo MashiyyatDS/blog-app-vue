@@ -30,7 +30,7 @@
           </li>
           <li class="list-group-item">
             <div class="artwork-tags-container">
-              <button class="btn btn-sm btn-outline-dark m-1" v-for="tag in getBlog.tags" :key="tag.id">{{ tag.tag }}</button>
+              <button class="btn btn-sm btn-outline-dark m-1 disabled" v-for="tag in getBlog.tags" :key="tag.id">{{ tag.tag }}</button>
             </div>
           </li>
         </ul>

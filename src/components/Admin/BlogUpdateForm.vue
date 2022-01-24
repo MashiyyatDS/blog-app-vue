@@ -26,18 +26,6 @@
                 </div>
               </li>
               <li class="list-group-item">
-                <div class="col-6">
-                  <div class="form-check">
-                    <input class="form-check-input" 
-                      type="checkbox"
-                      v-model="getBlog.isNsfw">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Set NSFW content
-                    </label>
-                  </div>
-                </div>
-              </li>
-              <li class="list-group-item">
                 <div class="d-flex">
                   <div class="col-6 p-1">
                     <label for="formFile" class="form-label">Blog image: </label>
