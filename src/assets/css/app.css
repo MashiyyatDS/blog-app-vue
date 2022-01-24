@@ -7,7 +7,7 @@
   font-family: 'Manjari Regular';
   position: fixed;
   height: 100%!important;
-  background-color: white!important;
+  /* background-color: white!important; */
 }
 .sidebar .nav-link {
   font-family: 'Lexend';
