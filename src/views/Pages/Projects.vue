@@ -41,7 +41,7 @@
                   </li>
                   <li class="list-group-item">
                     <div class="project-tags-container">
-                      <button class="btn btn-sm btn-outline-dark" v-for="tag in project.tags" :key="tag.id">
+                      <button class="btn btn-sm btn-outline-dark disabled" v-for="tag in project.tags" :key="tag.id">
                         {{ tag.tag }}
                       </button>
                     </div>
@@ -52,7 +52,7 @@
                         <a :href="project.link" class="btn btn-sm btn-primary">Demo</a>
                       </div>
                       <div class="d-grid col-6 p-1">
-                        <a v-bind:href="project.repository" class="btn btn-sm btn-dark">Code</a>
+                        <a v-bind:href="project.repository" class="btn btn-sm btn-success">Code</a>
                       </div>
                     </div>
                   </li>

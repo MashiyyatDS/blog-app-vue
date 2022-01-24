@@ -26,6 +26,7 @@
                 <label class="form-label">Description: </label>
                   <Editor 
                     v-model="project.description"
+                    apiKey="5sc2pkiw2b4eoyo0xa9dp0dcaf9n73v4hkzbgt3ug78ykkc4"
                     :init="{
                       height: 300,
                       menubar: false,

@@ -27,6 +27,7 @@
                   <label class="form-label">Content: </label>
                   <Editor 
                     v-model="blog.content"
+                    apiKey="5sc2pkiw2b4eoyo0xa9dp0dcaf9n73v4hkzbgt3ug78ykkc4"
                     :init="{
                       height: 300,
                       menubar: false,
