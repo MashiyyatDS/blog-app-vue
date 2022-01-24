@@ -25,7 +25,21 @@
               <li class="list-group-item">
                 <div class="mb-3">
                   <label class="form-label">Content: </label>
-                  <textarea class="form-control" cols="30" rows="5" v-model="blog.content"></textarea>
+                  <Editor 
+                    v-model="blog.content"
+                    :init="{
+                      height: 300,
+                      menubar: false,
+                      plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                      ],
+                      toolbar:
+                        'undo redo | formatselect | bold italic backcolor | \
+                        alignleft aligncenter alignright alignjustify | \
+                        bullist numlist outdent indent | removeformat | help'
+                    }"/>
                 </div>
               </li>
               <li class="list-group-item">
@@ -77,12 +91,13 @@
 <script>
 import Sidebar from '@/components/Admin/Sidebar'
 import Offcanvas from '@/components/Admin/Offcanvas'
+import Editor from '@tinymce/tinymce-vue'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'AddBlog',
   components: {
-    Sidebar, Offcanvas
+    Sidebar, Offcanvas, Editor
   },
   data() {
     return {

@@ -26,11 +26,11 @@
             <small class="text-muted">{{ getProject.created_at }}</small>
           </li>
           <li class="list-group-item project-content-container">
-            <p>{{ getProject.description }}</p>
+            <p v-html="getProject.description"></p>
           </li>
           <li class="list-group-item">
             <div class="artwork-tags-container">
-              <button class="btn btn-sm btn-outline-dark m-1" v-for="tag in getProject.tags" :key="tag.id">{{ tag.tag }}</button>
+              <button class="btn btn-sm btn-outline-dark m-1 disabled" v-for="tag in getProject.tags" :key="tag.id">{{ tag.tag }}</button>
             </div>
           </li>
           <li class="list-group-item">

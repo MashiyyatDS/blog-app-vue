@@ -24,7 +24,21 @@
             <li class="list-group-item">
               <div class="mb-3">
                 <label class="form-label">Description: </label>
-                <textarea class="form-control" cols="30" rows="5" v-model="project.description"></textarea>
+                  <Editor 
+                    v-model="project.description"
+                    :init="{
+                      height: 300,
+                      menubar: false,
+                      plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                      ],
+                      toolbar:
+                        'undo redo | formatselect | bold italic backcolor | \
+                        alignleft aligncenter alignright alignjustify | \
+                        bullist numlist outdent indent | removeformat | help'
+                    }"/>
               </div>
             </li>
             <li class="list-group-item">
@@ -72,12 +86,13 @@
 <script>
 import Sidebar from '@/components/Admin/Sidebar'
 import Offcanvas from '@/components/Admin/Offcanvas'
+import Editor from '@tinymce/tinymce-vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: "AddProject",
   components: {
-    Offcanvas, Sidebar
+    Offcanvas, Sidebar, Editor
   },
   data() {
     return {

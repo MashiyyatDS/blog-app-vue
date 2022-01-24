@@ -98,7 +98,6 @@ const actions = {
     commit('setProjectTags', {})
     axios.get(`api/projects/${id}`)
     .then(res => {
-      console.log(res)
       commit('setProject', res.data.project)
       commit('setProjectTags', res.data.project.tags)
     })

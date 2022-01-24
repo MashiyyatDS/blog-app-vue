@@ -26,7 +26,7 @@
             <small class="text-muted">Posted at {{ getBlog.created_at }}</small>
           </li>
           <li class="list-group-item project-content-container">
-            <p>{{ getBlog.content }}</p>
+            <p v-html="getBlog.content"></p>
           </li>
           <li class="list-group-item">
             <div class="artwork-tags-container">

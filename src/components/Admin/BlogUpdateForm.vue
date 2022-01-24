@@ -20,9 +20,21 @@
               <li class="list-group-item">
                 <div class="mb-3">
                   <label class="form-label">Blog content: </label>
-                  <textarea cols="30" rows="8" class="form-control" 
-                  placeholder="Enter project description..."
-                  v-model="getBlog.content"></textarea>
+                  <Editor 
+                    v-model="getBlog.content"
+                    :init="{
+                      height: 300,
+                      menubar: false,
+                      plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                      ],
+                      toolbar:
+                        'undo redo | formatselect | bold italic backcolor | \
+                        alignleft aligncenter alignright alignjustify | \
+                        bullist numlist outdent indent | removeformat | help'
+                    }"/>
                 </div>
               </li>
               <li class="list-group-item">
@@ -66,9 +78,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import Editor from '@tinymce/tinymce-vue'
 
 export default {
   name: 'BlogUpdateForm',
+  components: {
+    Editor
+  },
   data() {
     return {
       currentChip: ''
