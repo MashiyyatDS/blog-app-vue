@@ -5,7 +5,7 @@
         <li class="page-item" 
           v-for="link in linkData" 
           :key="link.id" 
-          v-bind:class="{ 'disabled' : link.url == null , 'active' : link.active == true}">
+          :class="{ 'disabled' : link.url == null || link.active == true , 'active' : link.active == true}">
           <button class="page-link" @click="emitLink(link.url)">
             <span v-if="link.label == 'Previous' "><i class="fa fa-chevron-left"></i></span>
             <span v-else-if="link.label == 'Next' "><i class="fa fa-chevron-right"></i></span>
@@ -28,3 +28,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+</style>

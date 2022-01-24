@@ -66,6 +66,7 @@ const actions = {
       const response = await axios.get(url)
       commit("setProjects", response.data.projects.data)
       commit("setProjectLinks", response.data.projects.links)
+      console.log(response)
       Swal.close()
     } catch (error) {
       console.error(error.response)
