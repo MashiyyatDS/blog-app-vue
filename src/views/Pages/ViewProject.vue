@@ -36,10 +36,10 @@
           <li class="list-group-item">
             <div class="d-flex">
               <div class="d-grid col-6 p-1">
-                <a v-bind:href="getProject.link" class="btn btn-sm btn-primary">Demo</a>
+                <a :href="getProject.link" class="btn btn-sm btn-primary" target="_blank">Demo</a>
               </div>
               <div class="d-grid col-6 p-1">
-                <a v-bind:href="getProject.repository" class="btn btn-sm btn-dark">Code</a>
+                <a v-bind:href="getProject.repository" class="btn btn-sm btn-dark" target="_blank">Code</a>
               </div>
             </div>
           </li>

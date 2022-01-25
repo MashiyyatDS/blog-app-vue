@@ -24,14 +24,14 @@
         <div class="row">
           <div class="col-6 p-1">
             <div class="d-grid">
-              <a href="" class="btn btn-sm btn-primary">
+              <a :href="project.link" class="btn btn-sm btn-primary" target="_blank">
                 <i class="fa fa-globe"></i> Demo 
               </a>
             </div>
           </div>
           <div class="col-6 p-1">
             <div class="d-grid">
-              <a href="" class="btn btn-sm btn-dark">
+              <a :href="project.repository" class="btn btn-sm btn-dark" target="_blank">
                 <i class="fa fa-github"></i> Code
               </a>
             </div>
