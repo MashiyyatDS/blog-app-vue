@@ -1,7 +1,7 @@
 <template>
   <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel" style="width: 300px;">
     <div class="offcanvas-body">
-      <div class="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar" style="width: 280px;">
+      <div class="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar" style="width: 300px;">
           <div class="logo-container mb-5">
         <a href="/" class="mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
           <img src="@/assets/images/logo-2.png" alt="" class="sidebar-logo">
@@ -62,3 +62,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .offcanvas-body {
+    padding: 0px!important;
+  }
+</style>

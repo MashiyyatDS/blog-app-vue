@@ -24,9 +24,9 @@
         <div class="row">
           <div class="col-12 p-1">
             <div class="d-grid">
-              <a href="" class="btn btn-sm btn-primary">
+              <router-link :to="'/blogs/' + blog.slug" class="btn btn-sm btn-primary">
                 View blog 
-              </a>
+              </router-link>
             </div>
           </div>
         </div>
