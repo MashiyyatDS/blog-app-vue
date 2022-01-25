@@ -28,7 +28,6 @@
 
 .blog-image-container img {
   width: 100%;
-  border-radius: 4px;
 }
 .blog-content-container p, 
 .artwork-content-containerm p, 
@@ -62,7 +61,6 @@
 
 .project-image-container img{
   width: 100%;
-  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-track

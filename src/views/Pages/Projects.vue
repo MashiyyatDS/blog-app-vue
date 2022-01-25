@@ -15,57 +15,15 @@
           </div>
         </nav>
 
-        <ul class="list-group p-1">
-          <li class="list-group-item" 
-            v-for="project in getProjects" 
-            :key="project.id"
-            data-aos="fade-in">
-            <div class="row mb-3">
-              <div class="col-md-6 p-1">
-                <div class="project-image-container">
-                  <img v-bind:src="project.image" alt="">
-                </div>
-              </div>
-              <div class="col-md-6 p-1">
-                <ul class="list-group">
-                  <li class="list-group-item project-content-container">
-                    <h3>
-                      <router-link :to="`/projects/${project.slug}`">
-                        <i class="fa fa-chevron-right"></i> {{ project.title }}
-                      </router-link>  
-                    </h3>
-                    <small class="text-muted">Posted at {{ project.created_at }}</small>
-                  </li>
-                  <li class="list-group-item">
-                    <small class="text-muted">Author: {{ project.user.firstname + " " + project.user.lastname }}</small>
-                  </li>
-                  <li class="list-group-item">
-                    <div class="project-tags-container">
-                      <button class="btn btn-sm btn-outline-dark disabled" v-for="tag in project.tags" :key="tag.id">
-                        {{ tag.tag }}
-                      </button>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div class="d-flex">
-                      <div class="d-grid col-6 p-1">
-                        <a :href="project.link" class="btn btn-sm btn-primary">Demo</a>
-                      </div>
-                      <div class="d-grid col-6 p-1">
-                        <a v-bind:href="project.repository" class="btn btn-sm btn-success">Code</a>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item pagination-container d-flex justify-content-center mb-3">
-            <Pagination 
-              v-bind:linkData="getProjectLinks"
-              v-on:emitLink="fetchProjects"/>
-          </li>
-        </ul>
+        <div class="row">
+          <ProjectItem 
+            v-bind:projects="getProjects"/>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+          <Pagination 
+            v-bind:linkData="getProjectLinks"
+            v-on:emitLink="fetchProjects"/>
+        </div>
       </div>
     </div>
   </div>
@@ -75,12 +33,13 @@
 import Sidebar from '@/components/Partials/Sidebar'
 import Offcanvas from '@/components/Partials/Offcanvas'
 import Pagination from '@/components/Admin/Pagination'
+import ProjectItem from '@/components/Partials/ProjectItem'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Projects',
   components: {
-    Sidebar, Offcanvas, Pagination
+    Sidebar, Offcanvas, Pagination, ProjectItem
   },
   computed: {
     ...mapGetters(['getProjects', 'getProjectLinks'])
@@ -93,18 +52,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .project-content-container a{
-    text-decoration: none;
-    color: rgb(63, 63, 63);
-    font-size: 19px;
-  }
-  .accordion-item {
-    border-radius: 0px!important;
-  }
-  .project-tags-container button {
-    font-size: 13px;
-    margin: 1.5px;
-  }
-</style>

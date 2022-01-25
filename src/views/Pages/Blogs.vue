@@ -15,43 +15,15 @@
           </div>
         </nav>
 
-        <ul class="list-group p-1">
-          <li class="list-group-item" v-for="blog in getBlogs" :key="blog.id" data-aos="fade-in">
-            <div class="row blog">
-              <div class="col-md-6">
-                <div class="blog-image-container p-2">
-                  <img v-bind:src="blog.image" alt="">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <ul class="list-group">
-                  <li class="list-group-item blog-content-container">
-                    <h3>{{ blog.title }}</h3>
-                    <small class="text-muted">Posted at {{ blog.created_at }}</small>
-                  </li>
-                  <li class="list-group-item blog-content-container">
-                    <small class="text-muted">Author: <span class="fw-bolder">{{ blog.user.firstname + " " + blog.user.lastname }}</span></small>
-                  </li>
-                  <li class="list-group-item">
-                    <button class="btn btn-sm btn-outline-dark ms-1 mb-1 disabled" v-for="tag in blog.tags" :key="tag.id">
-                      {{ tag.tag }}
-                    </button>
-                  </li>
-                  <li class="list-group-item">
-                    <div class="d-grid">
-                      <router-link :to=" '/blogs/' + blog.slug " class="btn btn-sm btn-primary">View blog</router-link>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item pagination-container d-flex justify-content-center mb-3">
-            <Pagination 
-              v-bind:linkData="getBlogLinks"
-              v-on:emitLink="fetchBlogs"/>
-          </li>
-        </ul>
+        <div class="row">
+          <BlogItem 
+            v-bind:blogs="getBlogs"/>
+        </div>
+        <div class="d-flex justify-content-center">
+          <Pagination 
+            v-bind:linkData="getBlogLinks"
+            v-on:emitLink="fetchBlogs"/>
+        </div>
       </div>
     </div>
   </div>
@@ -61,12 +33,13 @@
 import Sidebar from '@/components/Partials/Sidebar'
 import Offcanvas from '@/components/Partials/Offcanvas'
 import Pagination from '@/components/Admin/Pagination'
+import BlogItem from '@/components/Partials/BlogItem'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Blogs',
   components: {
-    Sidebar, Offcanvas, Pagination
+    Sidebar, Offcanvas, Pagination, BlogItem
   },
   data() {
     return {
