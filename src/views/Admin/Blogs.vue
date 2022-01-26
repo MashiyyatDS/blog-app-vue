@@ -8,7 +8,7 @@
       <div class="col-lg-9 col-md-12 mt-2 p-2">
         <nav class="navbar d-flex justify-content-in-between p-1">
           <h3>Blogs / Artworks</h3>
-          <button class="btn-sm btn btn-outline-primary d-lg-none d-sm-block d-xs-block ms-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
+          <button class="btn btn-outline-primary d-lg-none d-sm-block d-xs-block ms-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
             <i class="fa fa-bars"></i>
           </button>
         </nav>
@@ -38,42 +38,44 @@
             </a>
           </li>
           <li class="list-group-item table-container">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">Title</th>
-                  <th scope="col">Date posted</th>
-                  <th scope="col">Set NSFW content</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Options</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="blog in getBlogs" :key="blog.id" :class="{ 'table-danger' : blog.isNsfw == true }">
-                  <td>{{ blog.title }}</td>
-                  <td>{{ blog.created_at }}</td>
-                  <td>
-                    <div class="form-check form-switch d-flex justify-content-center">
-                      <input v-if="blog.isNsfw" class="form-check-input" type="checkbox" role="switch" checked>
-                      <input v-else class="form-check-input" type="checkbox" role="switch">
-                    </div>
-                  </td>
-                  <td>{{ blog.category }}</td>
-                  <td>
-                    <button class="btn btn-sm btn-outline-success ms-1" 
-                      data-bs-toggle="modal" 
-                      data-bs-target="#blogUpdateForm"
-                      @click="findBlog(blog.id)">
-                      <i class="fa fa-pencil"></i>
-                    </button>
-                    <button class="btn btn-sm btn-outline-danger ms-1"
-                      @click="deleteBlog(blog.id)">
-                      <i class="fa fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Date posted</th>
+                    <th scope="col">Set NSFW content</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="blog in getBlogs" :key="blog.id" :class="{ 'table-danger' : blog.isNsfw == true }">
+                    <td>{{ blog.title }}</td>
+                    <td>{{ blog.created_at }}</td>
+                    <td>
+                      <div class="form-check form-switch d-flex justify-content-center">
+                        <input v-if="blog.isNsfw" class="form-check-input" type="checkbox" role="switch" checked>
+                        <input v-else class="form-check-input" type="checkbox" role="switch">
+                      </div>
+                    </td>
+                    <td>{{ blog.category }}</td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-success ms-1" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#blogUpdateForm"
+                        @click="findBlog(blog.id)">
+                        <i class="fa fa-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger ms-1"
+                        @click="deleteBlog(blog.id)">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </li>
           <li class="list-group-item d-flex justify-content-center">
             <Pagination 

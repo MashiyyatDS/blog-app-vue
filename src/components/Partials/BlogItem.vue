@@ -13,7 +13,7 @@
             </div>
           </div>
           <div class="blog-body">
-            <div class="blog-title-container p-3">
+            <div class="blog-title-container ps-3 pb-2">
               <p class="blog-title">{{ blog.title }}</p>
             </div>
             <div class="blog-image-container">
