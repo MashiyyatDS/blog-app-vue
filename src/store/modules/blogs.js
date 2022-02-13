@@ -135,6 +135,17 @@ const actions = {
     })
   },
 
+  async setNsfw({ commit }, payload) {
+    try {
+      const response = await axios.put(`api/blogs/${payload.id}`, {
+        isNsfw: payload.isNsfw
+      })
+      commit('updateBlog', response.data.blog)
+    } catch (e) {
+      console.error(e.response)
+    }
+  },
+
   async viewBlog({ commit }, slug) {
     showLoader("Loading...")
     try {

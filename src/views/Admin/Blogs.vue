@@ -5,25 +5,38 @@
       <div class="col-lg-3">
         <Sidebar/>
       </div>
-      <div class="col-lg-9 col-md-12 mt-2 p-2">
+      <div class="col-lg-9 col-md-12 mt-2">
         <nav class="navbar d-flex justify-content-in-between p-1">
-          <h3>Blogs / Artworks</h3>
-          <button class="btn btn-outline-primary d-lg-none d-sm-block d-xs-block ms-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
+          <h5>Admin panel</h5>
+          <button class="btn btn-sm btn-outline-primary d-lg-none d-sm-block d-xs-block ms-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
             <i class="fa fa-bars"></i>
           </button>
         </nav>
         <!-- NAVBAR HERE -->
-        <ul class="list-group">
-          <li class="list-group-item d-flex justify-content-between">
-            <div class="col-8 p-1">
+        <div class="m-1">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <button class="nav-link active" aria-current="page"><i class="fa fa-list"></i> Blogs</button>
+            </li>
+            <li class="nav-item">
+              <router-link to="/admin/add-blog" class="nav-link">
+                <i class="fa fa-plus"></i> Add blog
+              </router-link>
+            </li>
+          </ul>
+        </div>
+
+        <div class="m-1">
+          <li class="row d-flex justify-content-between">
+            <div class="col-8">
               <form action="">
-                <label>Search:</label>
+                <small class="text-muted">Search:</small>
                 <input type="text" class="form-control" placeholder="Search here...">
               </form>
             </div>
-            <div class="col-4 p-1">
-              <label>Filter:</label>
-              <div class="input-group">
+            <div class="col-4">
+              <small class="text-muted">Filter:</small>
+              <div class="input-group ps-1">
                 <select class="form-select" @change="filterBlogs" v-model="category">
                   <option value="all">All</option>
                   <option value="artwork">Artwork</option>
@@ -32,57 +45,16 @@
               </div>
             </div>
           </li>
-          <li class="list-group-item">
-            <router-link to="/admin/add-blog" class="btn btn-sm btn-outline-primary ms-1">
-              <i class="fa fa-plus"></i> Add Blog / Artwork
-            </router-link>
-          </li>
-          <li class="list-group-item table-container">
-            <div class="table-responsive">
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Date posted</th>
-                    <th scope="col">Set NSFW content</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Options</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="blog in getBlogs" :key="blog.id" :class="{ 'table-danger' : blog.isNsfw == true }">
-                    <td>{{ blog.title }}</td>
-                    <td>{{ blog.created_at }}</td>
-                    <td>
-                      <div class="form-check form-switch d-flex justify-content-center">
-                        <input v-if="blog.isNsfw" class="form-check-input" type="checkbox" role="switch" checked>
-                        <input v-else class="form-check-input" type="checkbox" role="switch">
-                      </div>
-                    </td>
-                    <td>{{ blog.category }}</td>
-                    <td>
-                      <button class="btn btn-sm btn-outline-success ms-1" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#blogUpdateForm"
-                        @click="findBlog(blog.id)">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                      <button class="btn btn-sm btn-outline-danger ms-1"
-                        @click="deleteBlog(blog.id)">
-                        <i class="fa fa-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </li>
-          <li class="list-group-item d-flex justify-content-center">
-            <Pagination 
-              v-bind:linkData="getBlogLinks"
-              v-on:emitLink="fetchBlogs"/>
-          </li>
-        </ul>
+        </div>
+
+        <div class="m-1">
+          <BlogItem />
+        </div>
+        <div class="m-1 d-flex justify-content-center">
+          <Pagination 
+            v-bind:linkData="getBlogLinks"
+            v-on:emitLink="fetchBlogs"/>
+        </div>
         <BlogUpdateForm/>
       </div>
     </div>
@@ -93,6 +65,7 @@
 import Sidebar from '@/components/Admin/Sidebar'
 import Offcanvas from '@/components/Admin/Offcanvas'
 import BlogUpdateForm from '@/components/Admin/BlogUpdateForm'
+import BlogItem from '@/components/Admin/BlogItem'
 import Pagination from '@/components/Admin/Pagination'
 import { mapActions, mapGetters } from 'vuex'
 
@@ -102,7 +75,8 @@ export default {
     Sidebar, 
     Offcanvas, 
     Pagination, 
-    BlogUpdateForm
+    BlogUpdateForm,
+    BlogItem
   },
   data() {
     return {
