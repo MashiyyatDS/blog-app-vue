@@ -1,61 +1,60 @@
 <template>
-  <div>
-    <Offcanvas/>
-    <div class="row">
-      <div class="col-lg-3">
-        <Sidebar/>
-      </div>
-      <div class="col-lg-9 col-md-12">
-        <Nav v-bind:title="'LOGIN'"/>
-        <div class="row mt-5">
-          <div class="col-md-4 offset-md-4">
-            <form @submit.prevent="submitLogin">
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <h1>Login</h1>
-                </li>
-                <li class="list-group-item">
-                  <div class="mb-3">
-                    <label class="form-label">Email address:</label>
-                    <input type="email" 
-                      class="form-control" 
-                      placeholder="name@example.com" 
-                      v-model="user.email">
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="mb-3">
-                    <label class="form-label">Password:</label>
-                    <input type="password" 
-                      class="form-control" 
-                      placeholder="Enter your password..."
-                      v-model="user.password">
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="d-grid mt-3">
-                    <button class="btn btn-outline-primary" type="submit">Login</button>
-                  </div>
-                </li>
-              </ul>
-            </form>
-          </div>
+  <div class="row">
+    <div class="col-md-12">
+      <Navbar />
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <Navtabs 
+            v-bind:tab="'blogs'"/>
+          <form @submit.prevent="submitLogin">
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-center">
+                <h3>Login</h3>
+              </li>
+              <li class="list-group-item">
+                <div class="mb-3">
+                  <label class="form-label">Email address:</label>
+                  <input type="email" 
+                    class="form-control" 
+                    placeholder="name@example.com" 
+                    v-model="user.email">
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="mb-3">
+                  <label class="form-label">Password:</label>
+                  <input type="password" 
+                    class="form-control" 
+                    placeholder="Enter your password..."
+                    v-model="user.password">
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="d-grid mt-3">
+                  <button class="btn btn-outline-primary" type="submit">Login</button>
+                </div>
+              </li>
+            </ul>
+          </form>
         </div>
       </div>
     </div>
   </div>
+  <Footer />
 </template>
 
 <script>
-import Sidebar from '@/components/Partials/Sidebar'
-import Offcanvas from '@/components/Partials/Offcanvas'
-import Nav from '@/components/Partials/Nav'
+import Navbar from '@/components/Partials/Navbar'
+import Navtabs from '@/components/Partials/Navtabs'
+import Footer from '@/components/Partials/Footer'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
   components: {
-    Sidebar, Offcanvas, Nav
+    Navbar,
+    Navtabs,
+    Footer
   },
   data() {
     return {

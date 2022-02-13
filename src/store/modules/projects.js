@@ -10,42 +10,55 @@ const state = {
     description: '',
     link: '',
     repository: '',
+    image: [],
+    tags: [],
+  },
+  newProject: {
+    title: '',
+    description: '',
+    link: '',
+    repository: '',
     image: '',
     tags: [],
-    links: []
-  }
+  },
+  projectErrors: []
 }
 
 const getters = {
   project: (state) => state.project,
+  newProject: (state) => state.newProject,
   getProject: (state) => state.project,
   getProjects: (state) => state.projects,
   getProjectLinks: (state) => state.project.links,
-  getProjectTags: (state) => state.project.tags
+  getProjectTags: (state) => state.project.tags,
+  projectErrors: (state) => state.projectErrors
 }
 
 const actions = {
-  async addProject(_, payload) {
+  async addProject({ commit }, payload) {
+    commit('setProjectErrors', [])
     showLoader("Adding Project...")
     let formData = new FormData()
     formData.append('file', payload.image)
     formData.append('upload_preset', 'jsa0dt26')
     try {
       // =================== Upload image to cloudinary ===================
-      const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
-        body: formData,
-        method: 'POST'
-      }).then(res => { return res.json() }).then(data => { return data })
-      let imageName = image.url
+      // const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
+      //   body: formData,
+      //   method: 'POST'
+      // }).then(res => { return res.json() }).then(data => { return data })
+      // let imageName = image.url
+      
       // =================== Upload project data ===================
       const project = await axios.post('api/projects', {
-        title: payload.project.title,
-        description: payload.project.description,
-        link: payload.project.link,
-        repository: payload.project.repository,
-        image: imageName
+        title: payload.title,
+        description: payload.description,
+        link: payload.link,
+        repository: payload.repository,
+        image: 'imageName'
       })
       let projectId = project.data.project.id
+
       // =================== Upload project tags ===================
       axios.post('api/project-tags', {
         tags: payload.tags,
@@ -53,8 +66,11 @@ const actions = {
       })
 
       Swal.fire({title: "Project added", icon: 'success' })
+      commit('clearProject')
     }catch (error) {
-      console.error(error.response)
+      Swal.close()
+      commit('setProjectErrors', error.response.data.errors)
+      console.clear()
     }
   },
 
@@ -66,7 +82,6 @@ const actions = {
       const response = await axios.get(url)
       commit("setProjects", response.data.projects.data)
       commit("setProjectLinks", response.data.projects.links)
-      console.log(response)
       Swal.close()
     } catch (error) {
       console.error(error.response)
@@ -158,13 +173,15 @@ const mutations = {
   setProjects: (state, projects) => (state.projects = projects),
   setProjectLinks: (state, links) => (state.project.links = links),
   setProjectImage: (state, image) => (state.project.image = image),
-  updateProject: (state, project) => {
-    let objIndex = state.projects.findIndex((obj => obj.id == project.id))
-    state.projects[objIndex] = project
-  },
-  removeProject: (state, id) => {
-    let objIndex = state.projects.findIndex(obj => obj.id == id)
-    state.projects.splice(objIndex, 1)
+  updateProject: (state, project) => (state.projects[state.projects.findIndex((obj => obj.id == project.id))] = project),
+  removeProject: (state, id) => (state.projects.splice(state.projects.findIndex(obj => obj.id == id), 1)),
+  setProjectErrors: (state, errors) => (state.projectErrors = errors),
+  clearProject: (state) => {
+    [state.newProject.title, 
+    state.newProject.description,
+    state.newProject.link,
+    state.newProject.repository,] = '',
+    [state.newProject.tags, state.newProject.image] = [] 
   }
 }
 

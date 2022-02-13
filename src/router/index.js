@@ -51,7 +51,7 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: {
-      requireGuest: true
+      guest: true
     }
   },
   {
@@ -59,7 +59,7 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard,
     meta: {
-      requireAuth: true
+      auth: true
     }
   },
   {
@@ -67,7 +67,7 @@ const routes = [
     name: 'AccountSettings',
     component: AccountSettings,
     meta: {
-      requireAuth: true
+      auth: true
     }
   },
   {
@@ -75,7 +75,7 @@ const routes = [
     name: 'AdminBlogs',
     component: AdminBlogs,
     meta: {
-      requireAuth: true
+      auth: true
     }
   },
   {
@@ -83,7 +83,7 @@ const routes = [
     name: 'AdminProjects',
     component: AdminProjects,
     meta: {
-      requireAuth: true
+      auth: true
     }
   },
   {
@@ -91,7 +91,7 @@ const routes = [
     name: 'AddBlog',
     component: AddBlog,
     meta: {
-      requireAuth: true
+      auth: true
     }
   },
   {
@@ -99,7 +99,7 @@ const routes = [
     name: 'AddProject',
     component: AddProject,
     meta: {
-      requireAuth: true
+      auth: true
     }
   },
   {
@@ -119,15 +119,23 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requireAuth == true)) {
-    store.dispatch('auth')
-    next()
-  } else if (to.matched.some(record => record.meta.requireGuest == true)) {
-    store.dispatch('guest')
-    next()
-  } else {
-    next()
+  if(to.matched.some(record => record.meta.guest == true)) {
+    if(localStorage.getItem('token') != null) {
+      router.push({ path: '/' })
+    }
   }
+
+  if(to.matched.some(record => record.meta.auth == true)) {
+    store.dispatch(...['getUser'])
+    store.dispatch(...['authenticateUser'])
+    if(localStorage.getItem('token') == null) {
+      router.push({ path: '/login' })
+    }
+  } 
+  
+  next()
+  
 })
+
 
 export default router

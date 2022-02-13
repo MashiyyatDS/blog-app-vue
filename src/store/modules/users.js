@@ -1,32 +1,28 @@
 import axios from "axios"
-import router from '@/router'
+// import router from '@/router'
 import Swal from "sweetalert2"
 import showLoader from '@/loader'
+import router from "../../router"
 
 const state = {
-  isAuthenticated: false,
+  authenticated: false,
   currentUser: [],
   dashboard: {}
 }
   
 const getters = {
   currentUser: (state) => state.currentUser,
-  isAuthenticated: (state) => state.isAuthenticated,
+  authenticated: (state) => state.authenticated,
   dashboard: (state) => state.dashboard
 }
 
 const actions = {
   authenticateUser({ commit }) {
-    axios.get('/api/users')
-    .then(res => {
-      commit('setCurrentUser', res.data.user)
+    if(localStorage.getItem('token') != null) {
       commit('setAuthenticatedUser', true)
-    })
-    .catch(err => {
-      console.clear()
-      commit('setCurrentUser', err.response.data.message)
+    } else {
       commit('setAuthenticatedUser', false)
-    })
+    }
   },
 
   loginUser({ commit }, data) {
@@ -66,28 +62,6 @@ const actions = {
     })
   },
 
-  guest() {
-    axios.get('/api/users')
-    .then(() => { 
-      router.push({ path: '/page-not-found' })
-      return false 
-    })
-    .catch((err) => console.log(err.response))
-  },
-
-  auth({ commit }) {
-    axios.get('/api/users')
-    .then(() => { 
-      Swal.close()
-      commit('setAuthenticatedUser', true)
-      return true 
-    })
-    .catch(() => {
-      Swal.close()
-      router.push({ path: '/login' })
-    })
-  },
-
   fetchDashboard({ commit }) {
     showLoader("Loading...")
     axios.get('api/users/dashboard')
@@ -115,12 +89,24 @@ const actions = {
     } catch (error) {
       console.log(error.response)
     }
+  },
+
+  async getUser({ commit }) {
+    try {
+      const response = await axios.get('api/users')
+      commit('setCurrentUser', response.data.user)
+    } catch (e) {
+      localStorage.removeItem('token');
+      router.push({ path: '/login' })
+      Swal.close()
+      console.clear()
+    }
   }
 }
 
 const mutations = {
   setCurrentUser: (state, user) => (state.currentUser = user),
-  setAuthenticatedUser: (state, condition) => (state.isAuthenticated = condition),
+  setAuthenticatedUser: (state, payload) => (state.authenticated = payload),
   setDashboard: (state, data) => (state.dashboard = data)
 }
 

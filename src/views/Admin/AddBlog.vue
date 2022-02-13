@@ -8,7 +8,7 @@
       <div class="col-lg-9 col-md-12 mt-2">
         <nav class="navbar d-flex justify-content-in-between p-1">
           <h3>Add blog</h3>
-          <button class="btn-sm btn btn-outline-primary d-lg-none d-sm-block d-xs-block ms-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
+          <button class="btn btn-sm btn-outline-primary d-lg-none d-sm-block d-xs-block ms-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
             <i class="fa fa-bars"></i>
           </button>
         </nav>
@@ -19,14 +19,22 @@
               <li class="list-group-item">
                 <div class="mb-3">
                   <label class="form-label">Title: </label>
-                  <input type="text" class="form-control" placeholder="Enter blog title..." v-model="blog.title">
+                  <input 
+                    type="text" class="form-control" placeholder="Enter blog title..." 
+                    v-model="newBlog.title"
+                    :class="{ 'is-invalid' : blogErrors.title }">
                 </div>
               </li>
               <li class="list-group-item">
                 <div class="mb-3">
                   <label class="form-label">Content: </label>
-                  <Editor 
-                    v-model="blog.content"
+                  <textarea 
+                    cols="30" rows="8" class="form-control" 
+                    v-model="newBlog.content"
+                    :class="{ 'is-invalid' : blogErrors.title }">
+                  </textarea>
+                  <!-- <Editor 
+                    v-model="newBlog.content"
                     apiKey="5sc2pkiw2b4eoyo0xa9dp0dcaf9n73v4hkzbgt3ug78ykkc4"
                     :init="{
                       height: 300,
@@ -40,18 +48,21 @@
                         'undo redo | formatselect | bold italic backcolor | \
                         alignleft aligncenter alignright alignjustify | \
                         bullist numlist outdent indent | removeformat | help'
-                    }"/>
+                    }"/> -->
                 </div>
               </li>
               <li class="list-group-item">
                 <div class="row">
                   <div class="mb-3 col-6 p-1">
                     <label for="formFile" class="form-label">Blog image: </label>
-                    <input class="form-control" type="file" @change="handleFile">
+                    <input 
+                      class="form-control" type="file" 
+                      @change="handleFile"
+                      :class="{ 'is-invalid' : blogErrors.image }">
                   </div>
                   <div class="mb-3 col-6 p-1">
                     <label for="formFile" class="form-label">Blog category: </label>
-                    <select class="form-select" aria-label="Default select example" v-model="blog.category">
+                    <select class="form-select" aria-label="Default select example" v-model="newBlog.category">
                       <option value="blog">Blog</option>
                       <option value="artwork">Artwork</option>
                     </select>
@@ -60,7 +71,7 @@
               </li>
               <li class="list-group-item">
                 <div class="chip-container">
-                  <div class="chip" v-for="(chip, i) of chips" :key="chip.label">
+                  <div class="chip" v-for="(chip, i) of newBlog.tags" :key="chip.label">
                     {{chip}}
                     <i class="fa fa-times" @click="deleteChip(i)"></i>
                   </div>
@@ -72,7 +83,7 @@
               </li>
               <li class="list-group-item">
                 <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked  v-model="blog.isNsfw">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked  v-model="newBlog.isNsfw">
                   <label class="form-check-label" for="flexSwitchCheckChecked">Set NSFW content</label>
                 </div>
               </li>
@@ -92,56 +103,47 @@
 <script>
 import Sidebar from '@/components/Admin/Sidebar'
 import Offcanvas from '@/components/Admin/Offcanvas'
-import Editor from '@tinymce/tinymce-vue'
-import { mapActions } from 'vuex'
+// import Editor from '@tinymce/tinymce-vue'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'AddBlog',
   components: {
-    Sidebar, Offcanvas, Editor
+    Sidebar, 
+    Offcanvas, 
+    // Editor
   },
   data() {
     return {
-      chips: [],
       currentChip: '',
       file: '',
-      blog: {
-        title: '',
-        content: '',
-        category: '',
-        isNsfw: 0,
-        user_id: 1,
-        image: ''
-      }
     }
   },
-  created() {
+  computed: {
+    ...mapGetters([
+      'newBlog',
+      'blogErrors'])
   },
   methods: {
     ...mapActions(['addBlog']),
 
     saveChip() {
       if(this.currentChip != '') {
-        this.chips.push(this.currentChip)
+        this.newBlog.tags.push(this.currentChip)
         this.currentChip = ''
       }
     },
 
     deleteChip(index) {
-      this.chips.splice(index, 1)
+      this.newBlog.tags.splice(index, 1)
     },
 
     handleFile(e) {
-      this.file = e.target.files[0]
+      this.newBlog.image = e.target.files[0]
     },
 
     submitBlog() {
-      let payload = {
-        image: this.file,
-        blog: this.blog,
-        tags: [...this.chips]
-      }
-      this.addBlog(payload)
+      this.addBlog(this.newBlog)
     }
   }
 }

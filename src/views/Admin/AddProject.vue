@@ -18,14 +18,22 @@
             <li class="list-group-item">
               <div class="mb-3">
                 <label class="form-label">Title: </label>
-                <input type="text" class="form-control" placeholder="Enter project title..." v-model="project.title">
+                <input 
+                  type="text" class="form-control" placeholder="Enter project title..." 
+                  v-model="newProject.title"
+                  :class="{ 'is-invalid' : projectErrors.title }">
               </div>
             </li>
             <li class="list-group-item">
               <div class="mb-3">
                 <label class="form-label">Description: </label>
-                  <Editor 
-                    v-model="project.description"
+                <textarea 
+                  cols="30" rows="10" class="form-control" 
+                  v-model="newProject.description"
+                  :class="{ 'is-invalid' : projectErrors.description }">
+                </textarea>
+                  <!-- <Editor 
+                    v-model="newProject.description"
                     apiKey="5sc2pkiw2b4eoyo0xa9dp0dcaf9n73v4hkzbgt3ug78ykkc4"
                     :init="{
                       height: 300,
@@ -39,30 +47,39 @@
                         'undo redo | formatselect | bold italic backcolor | \
                         alignleft aligncenter alignright alignjustify | \
                         bullist numlist outdent indent | removeformat | help'
-                    }"/>
+                    }"/> -->
               </div>
             </li>
             <li class="list-group-item">
               <div class="mb-3">
                 <label class="form-label">Demo link: </label>
-                <input type="text" class="form-control" placeholder="Enter project demo link..." v-model="project.link">
+                <input 
+                  type="text" class="form-control" placeholder="Enter project demo link..." 
+                  v-model="newProject.link"
+                  :class="{ 'is-invalid' : projectErrors.link }">
               </div>
             </li>
             <li class="list-group-item">
               <div class="mb-3">
                 <label class="form-label">Repository: </label>
-                <input type="text" class="form-control" placeholder="Enter project repository..." v-model="project.repository">
+                <input 
+                  type="text" class="form-control" placeholder="Enter project repository..." 
+                  v-model="newProject.repository"
+                  :class="{ 'is-invalid' : projectErrors.repository }">
               </div>
             </li>
             <li class="list-group-item">
               <div class="mb-3 p-1">
                 <label for="formFile" class="form-label">Project image: </label>
-                <input class="form-control" type="file" @change="handleFile">
+                <input 
+                  class="form-control" type="file" 
+                  @change="handleFile"
+                  :class="{ 'is-invalid' : projectErrors.image }">
               </div>
             </li>
             <li class="list-group-item">
               <div class="chip-container">
-                <div class="chip" v-for="(chip, i) of chips" :key="chip.label">
+                <div class="chip" v-for="(chip, i) of newProject.tags" :key="chip.label">
                   {{chip}}
                   <i class="fa fa-times" @click="deleteChip(i)"></i>
                 </div>
@@ -87,13 +104,15 @@
 <script>
 import Sidebar from '@/components/Admin/Sidebar'
 import Offcanvas from '@/components/Admin/Offcanvas'
-import Editor from '@tinymce/tinymce-vue'
+// import Editor from '@tinymce/tinymce-vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: "AddProject",
   components: {
-    Offcanvas, Sidebar, Editor
+    Offcanvas, 
+    Sidebar, 
+    // Editor
   },
   data() {
     return {
@@ -103,33 +122,31 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['project'])
+    ...mapGetters([
+      'newProject',
+      'projectErrors'
+      ])
   },
   methods: {
     ...mapActions(['addProject']),
 
     saveChip() {
       if(this.currentChip != '') {
-        this.chips.push(this.currentChip)
+        this.newProject.tags.push(this.currentChip)
         this.currentChip = ''
       }
     },
 
     deleteChip(index) {
-      this.chips.splice(index, 1)
+      this.newProject.tags.splice(index, 1)
     },
 
     handleFile(e) {
-      this.file = e.target.files[0]
+      this.newProject.image = e.target.files[0]
     },
 
     submitProject() {
-      const payload = {
-        project: this.project,
-        tags: this.chips,
-        image: this.file
-      }
-      this.addProject(payload)
+      this.addProject(this.newProject)
     },
   }
 }

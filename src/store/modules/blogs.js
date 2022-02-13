@@ -1,7 +1,7 @@
 import axios from "axios"
 import Swal from "sweetalert2"
-import router from '@/router'
 import showLoader from '@/loader'
+import router from '@/router'
 
 const state = {
   blogs: [],
@@ -10,16 +10,28 @@ const state = {
     content: '',
     isNsfw: 0,
     category: '',
-    tags: []
+    tags: [],
+    user: {}
   },
-  blogLinks: {}
+  newBlog: {
+    title: '',
+    content: '',
+    isNsfw: false,
+    category: 'blog',
+    tags: [],
+    image: []
+  },
+  blogLinks: [],
+  blogErrors: []
 }
 
 const getters = {
   getBlogs: (state) => state.blogs,
-  getBlog: (state) => state.blog,
+  blog: (state) => state.blog,
+  newBlog: (state) => state.newBlog,
   getBlogLinks: (state) => state.blogLinks,
-  getBlogTags: (state) => state.blog.tags
+  getBlogTags: (state) => state.blog.tags,
+  blogErrors: (state) => state.blogErrors
 }
 
 const actions = {
@@ -37,26 +49,26 @@ const actions = {
     }
   },
 
-  async addBlog(_, payload) {
+  async addBlog({ commit }, payload) {
+    commit('setBlogErrors', [])
     showLoader("Adding blog...")
-    let formData = new FormData()
-    formData.append('file', payload.image)
-    formData.append('upload_preset', 't8j7klfq')
+    // let formData = new FormData()
+    // formData.append('file', payload.image)
+    // formData.append('upload_preset', 't8j7klfq')
     try {
       // =================== Upload image to cloudinary ===================
-      const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
-        body: formData,
-        method: 'POST'
-      }).then(res => { return res.json() }).then(data => { return data })
-      let imageName = image.url
+      // const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
+      //   body: formData,
+      //   method: 'POST'
+      // }).then(res => { return res.json() }).then(data => { return data })
+      // let imageName = 'image.url.jpg'
   
       const blog = await axios.post('/api/blogs', {
-        title: payload.blog.title,
-        content: payload.blog.content,
-        category: payload.blog.category,
-        isNsfw: payload.blog.isNsfw,
-        user_id: payload.blog.user_id,
-        image: imageName
+        title: payload.title,
+        content: payload.content,
+        category: payload.category,
+        isNsfw: payload.isNsfw,
+        image: 'imageName.asd'
       })
       console.log(blog)
   
@@ -66,9 +78,11 @@ const actions = {
       })
       console.log(tags)
       Swal.fire({ title: 'Blog added', icon: 'success' })
+      commit('clearBlog')
     } catch (error) {
       Swal.close()
-      console.error(error.response)
+      console.clear()
+      commit('setBlogErrors', error.response.data.errors)
     }
   },
 
@@ -121,20 +135,22 @@ const actions = {
     })
   },
 
-  viewBlog({ commit }, slug) {
+  async viewBlog({ commit }, slug) {
     showLoader("Loading...")
-    commit('setBlog', {})
-    axios.get(`api/blogs/slug/${slug}`)
-    .then(res => {
+    try {
+      const response = await axios.get(`api/blogs/slug/${slug}`)
+      commit('setBlog', response.data.blog)
       Swal.close()
-      commit('setBlog', res.data.blog)
-    })
-    .catch(err => {
-      Swal.close()
-      router.push("/page-not-found")
-      console.log(err.response)
-    })
+    } catch (e) {
+      console.error(e.response)
+      if(e.response.status == 404) {
+        console.clear()
+        Swal.close()
+        router.push({ path: '/page-not-found' })
+      }
+    }
   }
+
 }
 
 const mutations = {
@@ -142,13 +158,12 @@ const mutations = {
   setBlog: (state, blog) => (state.blog = blog),
   setBlogLinks: (state, links) => (state.blogLinks = links),
   setBlogTags: (state, tags) => (state.blog.tags = tags),
-  updateBlog: (state, blog) => {
-    let objIndex = state.blogs.findIndex(obj => obj.id == blog.id)
-    state.blogs[objIndex] = blog
-  },
-  deleteBlog: (state, id) => {
-    let objIndex = state.blogs.findIndex(obj => obj.id == id)
-    state.blogs.splice(objIndex, 1)
+  updateBlog: (state, blog) => (state.blogs[state.blogs.findIndex(obj => obj.id == blog.id)] = blog),
+  deleteBlog: (state, id) => (state.blogs.splice(state.blogs.findIndex(obj => obj.id == id), 1)),
+  setBlogErrors: (state, errors) => (state.blogErrors = errors),
+  clearBlog: (state) => {
+    [state.newBlog.title, state.newBlog.content] = '',
+    state.newBlog.tags = []
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-10 offset-md-1 mb-3 blog" v-for="blog in blogs" :key="blog.slug">
+  <div class="col-md-6 offset-md-3 mb-3 blog" v-for="blog in blogs" :key="blog.slug">
     <router-link :to="'/blogs/' + blog.slug">
       <div class="card">
         <div class="card-body">
@@ -37,38 +37,3 @@ export default {
   props: ['blogs']
 }
 </script>
-
-
-<style scoped>
-  .blog a {
-    text-decoration: none;
-  }
-  .card-body {
-    padding: 0px;
-  }
-  .blog-header .user-image {
-    width: 100%;
-  }
-  .user-image-container {
-    width: 50px;
-    height: 50px;
-    border-radius: 30px;
-    overflow: hidden;
-  }
-  .user-name {
-    color: rgb(31, 31, 31);
-    font-family: 'Lexend';
-    margin-bottom: 0px;
-  }
-  .blog-title {
-    margin: 0px!important;
-    font-family: 'Poppins';
-    color: black;
-  }
-  .blog-data {
-    font-size: 3px;
-  }
-  .blog-image-container {
-    width: 100%;
-  }
-</style>

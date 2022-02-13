@@ -6,7 +6,7 @@
       </a>
     </div>
     <ul class="nav nav-pills flex-column mb-auto">
-      <li v-show="isAuthenticated">
+      <li v-show="authenticated">
         <router-link to="/admin/dashboard" class="nav-link link-dark">
           <i class="fa fa-list"></i> <span class="ms-3">Dashboard</span>
         </router-link>
@@ -26,7 +26,7 @@
           <i class="fa fa-folder"></i> <span class="ms-3">Projects</span>
         </router-link>
       </li>
-      <li v-show="isAuthenticated">
+      <li v-show="authenticated">
         <button class="nav-link link-dark" @click="logoutUser">
           <i class="fa fa-sign-out"></i> <span class="ms-3">Logout</span>
         </button>
@@ -47,13 +47,10 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Sidebar',
   computed: {
-    ...mapGetters(['isAuthenticated'])
+    ...mapGetters(['authenticated'])
   },
   methods: {
-    ...mapActions(['authenticateUser', 'logoutUser'])
-  },
-  created() {
-    this.authenticateUser()
+    ...mapActions(['logoutUser'])
   }
 }
 </script>

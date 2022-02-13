@@ -19,7 +19,8 @@
               <li class="list-group-item">
                 <div class="mb-3">
                   <label class="form-label">Project description: </label>
-                  <Editor 
+                  <textarea cols="30" rows="10" class="form-control" v-model="getProject.description"></textarea>
+                  <!-- <Editor 
                     v-model="getProject.description"
                     apiKey="5sc2pkiw2b4eoyo0xa9dp0dcaf9n73v4hkzbgt3ug78ykkc4"
                     :init="{
@@ -34,7 +35,7 @@
                         'undo redo | formatselect | bold italic backcolor | \
                         alignleft aligncenter alignright alignjustify | \
                         bullist numlist outdent indent | removeformat | help'
-                    }"/>
+                    }"/> -->
                 </div>
               </li>
               <li class="list-group-item">
@@ -85,12 +86,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import Editor from '@tinymce/tinymce-vue'
+// import Editor from '@tinymce/tinymce-vue'
 
 export default {
   name: 'ProjectUpdateForm',
   components: {
-    Editor
+    // Editor
   },
   props: ['editProject'],
   computed: {

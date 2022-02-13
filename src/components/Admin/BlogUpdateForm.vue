@@ -14,14 +14,14 @@
                   <label class="form-label">Blog title: </label>
                   <input type="text" class="form-control"
                   placeholder="Enter project title..."
-                  v-model="getBlog.title">
+                  v-model="blog.title">
                 </div>
               </li>
               <li class="list-group-item">
                 <div class="mb-3">
                   <label class="form-label">Blog content: </label>
                   <Editor 
-                    v-model="getBlog.content"
+                    v-model="blog.content"
                     apiKey="5sc2pkiw2b4eoyo0xa9dp0dcaf9n73v4hkzbgt3ug78ykkc4"
                     :init="{
                       height: 300,
@@ -46,7 +46,7 @@
                   </div>
                   <div class="col-6 p-1">
                     <label for="formFile" class="form-label">Blog category: </label>
-                    <select class="form-select" aria-label="Default select example" v-model="getBlog.category">
+                    <select class="form-select" aria-label="Default select example" v-model="blog.category">
                       <option value="blog">Blog</option>
                       <option value="artwork">Artwork</option>
                     </select>
@@ -92,7 +92,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getBlog', 'getBlogTags'])
+    ...mapGetters([
+      'blog', 
+      'getBlogTags'])
   },
   methods: {
     ...mapActions(['updateBlog']),
@@ -100,7 +102,7 @@ export default {
     submitBlog() {
       let mapTags = this.getBlogTags.map(tag => tag.tag)
       const payload = {
-        blog: this.getBlog,
+        blog: this.blog,
         tags: mapTags
       }
       // console.log(payload)

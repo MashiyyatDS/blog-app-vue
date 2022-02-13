@@ -33,9 +33,9 @@
             </div>
           </li>
           <li class="list-group-item">
-            <a href="/admin/add-blog" class="btn btn-sm btn-outline-primary ms-1">
+            <router-link to="/admin/add-blog" class="btn btn-sm btn-outline-primary ms-1">
               <i class="fa fa-plus"></i> Add Blog / Artwork
-            </a>
+            </router-link>
           </li>
           <li class="list-group-item table-container">
             <div class="table-responsive">
@@ -99,19 +99,27 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'AdminBlogs',
   components: {
-    Sidebar, Offcanvas, Pagination, BlogUpdateForm
+    Sidebar, 
+    Offcanvas, 
+    Pagination, 
+    BlogUpdateForm
   },
   data() {
     return {
       url: '/api/blogs/paginate=10/category=all',
-      category: ''
+      category: 'all'
     }
   },
   computed: {
-    ...mapGetters(['getBlogs', 'getBlogLinks'])
+    ...mapGetters([
+      'getBlogs', 
+      'getBlogLinks'])
   },
   methods: {
-    ...mapActions(['fetchBlogs', 'findBlog', 'deleteBlog']),
+    ...mapActions([
+      'fetchBlogs', 
+      'findBlog', 
+      'deleteBlog']),
 
     filterBlogs() {
       this.fetchBlogs(`/api/blogs/paginate=10/category=${this.category}`)

@@ -111,7 +111,10 @@ export default {
     ...mapGetters(['currentUser'])
   },
   methods: {
-    ...mapActions(['authenticateUser', 'updateUser', 'resetPassword']), 
+    ...mapActions([
+      'getUser',
+      'updateUser', 
+      'resetPassword']), 
 
     submitAccountForm() {
       this.updateUser(this.currentUser)
@@ -127,7 +130,7 @@ export default {
     }
   },
   created() {
-    this.authenticateUser()
+    this.getUser()
   }
 }
 </script>

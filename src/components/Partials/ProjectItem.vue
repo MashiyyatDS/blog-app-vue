@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-12 mb-4" v-for="project in projects" :key="project.slug">
+  <div class="col-md-6 offset-md-3 mb-3" v-for="project in projects" :key="project.slug">
     <div class="card">
       <div class="card-body">
         <div class="d-flex justify-content-center bg-dark">

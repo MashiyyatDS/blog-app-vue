@@ -21,7 +21,9 @@
         </div>
         <ul class="list-group">
           <li class="list-group-item d-flex justify-content-between">
-            <a href="/admin/add-project" class="btn btn-sm btn-outline-success ms-1"><i class="fa fa-plus"></i> Add Project</a>
+            <router-link to="/admin/add-project" class="btn btn-sm btn-outline-success ms-1">
+              <i class="fa fa-plus"></i> Add Project
+            </router-link>
           </li>
           <li class="list-group-item table-container">
             <table class="table table-striped table-hover">
@@ -32,7 +34,7 @@
                   <th scope="col">Options</th>
                 </tr>
               </thead>
-              <tbody data-aos="fade-in">
+              <tbody>
                 <tr v-for="project in getProjects" :key="project.id">
                   <td>{{ project.title }}</td>
                   <td>{{ project.created_at }}</td>

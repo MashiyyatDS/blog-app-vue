@@ -1,64 +1,68 @@
 <template>
-  <div>
-    <meta property='og:title' :content="getBlog.title">
-    <meta property='og:image' :content="getBlog.image">
-    <Offcanvas/>
-    <div class="row">
-      <div class="col-lg-3">
-        <Sidebar/>
+  <div class="row">
+    <div class="col-md-12">
+      <Navbar />
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <Navtabs 
+            v-bind:tab="'blogs'"/>
+        </div>
       </div>
-      <div class="col-lg-9 col-md-12">
-        <nav class="navbar navbar navbar-dark bg-dark mb-3 sticky-top">
-          <div class="container-fluid p-1">
-            <p class="navbar-title"><a class="navbar-brand" href="#"><i class="fa fa-folder"></i> Blogs</a></p>
-            <button class="btn btn-outline-primary d-block d-lg-none d-sm-block d-xs-block" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
-              <i class="fa fa-bars"></i>
-            </button>
+      <div class="row m-1">
+        <div class="col-md-6 offset-md-3 mb-3 blog">
+          <div class="card">
+            <div class="card-body">
+              <div class="blog-header d-flex p-3">
+                <div class="user-image-container">
+                  <img src="@/assets/images/avatar.jpg" alt="" class="user-image">
+                </div>
+                <div class="blog-user-name">
+                  <p class="card-text fw-bolder ms-2 user-name">{{ blog.user.firstname }} {{ blog.user.lastname }}</p>
+                  <small class="ms-2 text-muted blog-date">{{ blog.created_at }}</small>
+                </div>
+              </div>
+              <div class="blog-body">
+                <div class="blog-title-container ps-3 pb-2">
+                  <p class="blog-title">{{ blog.title }}</p>
+                </div>
+                <div class="blog-image-container">
+                  <img :src="blog.image" alt="" class="blog-image">
+                </div>
+              </div>
+              <div class="blog-footer p-2">
+                <button class="btn btn-sm btn-outline-dark disabled m-1" v-for="tag in blog.tags" :key="tag.id">
+                  {{ tag.tag }}
+                </button>
+              </div>
+            </div>
           </div>
-        </nav>
-
-        <ul class="list-group mb-3">
-          <li class="list-group-item" style="padding: 0px">
-            <div class="art-image-container">
-              <img v-bind:src="getBlog.image" alt="">
-            </div>
-          </li>
-          <li class="list-group-item project-content-container">
-            <h3>{{ getBlog.title }}</h3>
-            <small class="text-muted">Posted at {{ getBlog.created_at }}</small>
-          </li>
-          <li class="list-group-item project-content-container">
-            <p v-html="getBlog.content"></p>
-          </li>
-          <li class="list-group-item">
-            <div class="artwork-tags-container">
-              <button class="btn btn-sm btn-outline-dark m-1 disabled" v-for="tag in getBlog.tags" :key="tag.id">{{ tag.tag }}</button>
-            </div>
-          </li>
-        </ul>
+        </div>
       </div>
     </div>
   </div>
+  <Footer />
 </template>
 
 <script>
-import Sidebar from '@/components/Partials/Sidebar'
-import Offcanvas from '@/components/Partials/Offcanvas'
+import Navbar from '@/components/Partials/Navbar'
+import Navtabs from '@/components/Partials/Navtabs'
+import Footer from '@/components/Partials/Footer'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'ViewBlog',
   components: {
-    Sidebar, Offcanvas
+    Navbar,
+    Navtabs,
+    Footer
   },
   data() {
     return {
-      err: null,
-      blog: null
+      err: null
     }
   },
   computed: {
-    ...mapGetters(['getBlog'])
+    ...mapGetters(['blog'])
   },
   methods: {
     ...mapActions(['viewBlog'])
