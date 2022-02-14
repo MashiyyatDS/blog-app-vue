@@ -6,12 +6,13 @@
         <Sidebar/>
       </div>
       <div class="col-lg-9 col-md-12 mt-2">
-        <nav class="navbar d-flex justify-content-end p-2">
-          <button class="btn btn-sm btn-outline-primary d-lg-none d-sm-block d-xs-block ms-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
+        <nav class="navbar d-flex justify-in-between p-2">
+          <h5><i class="fa fa-chevron-right"></i> Admin panel</h5>
+          <button class="btn btn-sm btn-outline-secondary d-lg-none d-sm-block d-xs-block ms-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
             <i class="fa fa-bars"></i>
           </button>
         </nav>
-        <!-- NAVBAR HERE -->
+        
         <div class="p-5 mb-4 text-white bg-dark rounded-3 m-1">
           <div class="container-fluid p-1">
             <h1 class="display-5 fw-bold">Dashboard</h1><hr>

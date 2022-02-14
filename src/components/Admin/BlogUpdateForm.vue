@@ -39,12 +39,12 @@
                 </div>
               </li>
               <li class="list-group-item">
-                <div class="d-flex">
-                  <div class="col-6 p-1">
+                <div class="row">
+                  <div class="col-md-6 p-1">
                     <label for="formFile" class="form-label">Blog image: </label>
                     <input class="form-control" type="file" @change="handleFile">
                   </div>
-                  <div class="col-6 p-1">
+                  <div class="col-md-6 p-1">
                     <label for="formFile" class="form-label">Blog category: </label>
                     <select class="form-select" aria-label="Default select example" v-model="blog.category">
                       <option value="blog">Blog</option>

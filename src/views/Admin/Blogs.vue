@@ -7,8 +7,8 @@
       </div>
       <div class="col-lg-9 col-md-12 mt-2">
         <nav class="navbar d-flex justify-content-in-between p-1">
-          <h5>Admin panel</h5>
-          <button class="btn btn-sm btn-outline-primary d-lg-none d-sm-block d-xs-block ms-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
+          <h5><i class="fa fa-chevron-right"></i> Admin panel</h5>
+          <button class="btn btn-sm btn-outline-secondary d-lg-none d-sm-block d-xs-block ms-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
             <i class="fa fa-bars"></i>
           </button>
         </nav>
@@ -28,13 +28,13 @@
 
         <div class="m-1">
           <li class="row d-flex justify-content-between">
-            <div class="col-8">
+            <div class="col-md-6">
               <form action="">
                 <small class="text-muted">Search:</small>
                 <input type="text" class="form-control" placeholder="Search here...">
               </form>
             </div>
-            <div class="col-4">
+            <div class="col-md-6">
               <small class="text-muted">Filter:</small>
               <div class="input-group ps-1">
                 <select class="form-select" @change="filterBlogs" v-model="category">
@@ -80,7 +80,7 @@ export default {
   },
   data() {
     return {
-      url: '/api/blogs/paginate=10/category=all',
+      url: '/api/blogs/paginate=15/category=all',
       category: 'all'
     }
   },

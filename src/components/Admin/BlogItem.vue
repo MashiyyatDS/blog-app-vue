@@ -9,7 +9,7 @@
         <button 
           class="btn btn-sm text-dark" type="button" 
           id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fa fa-chevron-down text-muted"></i>
+          <i class="fa fa-bars text-muted"></i>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
           <li>
@@ -51,7 +51,7 @@
               v-else>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mt-1">
           <small class="text-muted">Category: </small>
           <small 
             class="p-1 text-white rounded-3"

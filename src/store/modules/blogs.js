@@ -52,23 +52,24 @@ const actions = {
   async addBlog({ commit }, payload) {
     commit('setBlogErrors', [])
     showLoader("Adding blog...")
-    // let formData = new FormData()
-    // formData.append('file', payload.image)
-    // formData.append('upload_preset', 't8j7klfq')
+    let formData = new FormData()
+    formData.append('file', payload.image)
+    formData.append('upload_preset', 't8j7klfq')
     try {
       // =================== Upload image to cloudinary ===================
-      // const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
-      //   body: formData,
-      //   method: 'POST'
-      // }).then(res => { return res.json() }).then(data => { return data })
-      // let imageName = 'image.url.jpg'
+      const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
+        body: formData,
+        method: 'POST'
+      })
+      .then(res => res.json()).then(data => data)
+      let imageName = image.url
   
       const blog = await axios.post('/api/blogs', {
         title: payload.title,
         content: payload.content,
         category: payload.category,
         isNsfw: payload.isNsfw,
-        image: 'imageName.asd'
+        image: imageName
       })
       console.log(blog)
   

@@ -43,11 +43,11 @@ const actions = {
     formData.append('upload_preset', 'jsa0dt26')
     try {
       // =================== Upload image to cloudinary ===================
-      // const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
-      //   body: formData,
-      //   method: 'POST'
-      // }).then(res => { return res.json() }).then(data => { return data })
-      // let imageName = image.url
+      const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
+        body: formData,
+        method: 'POST'
+      }).then(res => { return res.json() }).then(data => { return data })
+      let imageName = image.url
       
       // =================== Upload project data ===================
       const project = await axios.post('api/projects', {
@@ -55,7 +55,7 @@ const actions = {
         description: payload.description,
         link: payload.link,
         repository: payload.repository,
-        image: 'imageName'
+        image: imageName
       })
       let projectId = project.data.project.id
 
@@ -70,7 +70,8 @@ const actions = {
     }catch (error) {
       Swal.close()
       commit('setProjectErrors', error.response.data.errors)
-      console.clear()
+      // console.clear()
+      console.log(error.response)
     }
   },
 
