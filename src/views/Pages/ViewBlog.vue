@@ -13,11 +13,11 @@
           <div class="card">
             <div class="card-body">
               <div class="blog-header d-flex p-3">
-                <div class="user-image-container">
+                <!-- <div class="user-image-container">
                   <img src="@/assets/images/avatar.jpg" alt="" class="user-image">
-                </div>
+                </div> -->
                 <div class="blog-user-name">
-                  <p class="card-text fw-bolder ms-2 user-name">{{ blog.user.firstname }} {{ blog.user.lastname }}</p>
+                  <!-- <p class="card-text fw-bolder ms-2 user-name">{{ blog.user.firstname }} {{ blog.user.lastname }}</p> -->
                   <small class="ms-2 text-muted blog-date">{{ blog.created_at }}</small>
                 </div>
               </div>
