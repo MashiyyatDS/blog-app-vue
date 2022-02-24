@@ -11,7 +11,10 @@ const state = {
     isNsfw: 0,
     category: '',
     tags: [],
-    user: {}
+    user: {
+      firstname: '',
+      lastname: ''
+    }
   },
   newBlog: {
     title: '',
