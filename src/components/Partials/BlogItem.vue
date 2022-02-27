@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-6 offset-md-3 mb-3 blog" v-for="blog in blogs" :key="blog.slug">
-    <a :href="'/blogs/' + blog.slug" _target="_blank">
+    <a :href="'/blogs/' + blog.slug" target="_blank">
       <div class="card position-relative">
         <span 
           class="position-absolute top-0 end-0 bg-danger p-2 text-white"
