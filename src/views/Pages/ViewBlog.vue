@@ -36,9 +36,12 @@
               </div>
             </div>
           </div>
+          <div id="fb-root"></div>
+          <div class="fb-comments" 
+            :data-href="'https://mashmin.netlify.app/blogs/'+ $route.params.slug"
+            data-width="100%" data-numposts="10">
+          </div>
         </div>
-        <div id="fb-root"></div>
-        <div class="fb-comments" data-href="https://mashmin.netlify.app/blogs/blog-20755449731645927956" data-width="300" data-numposts="10"></div>
       </div>
     </div>
   </div>
