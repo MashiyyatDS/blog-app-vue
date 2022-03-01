@@ -88,7 +88,7 @@
                 <div class="mb-3 p-1">
                   <label for="formFile" class="form-label">Project image: </label>
                   <input 
-                    class="form-control" type="file" 
+                    class="form-control" type="file" multiple
                     @change="handleFile"
                     :class="{ 'is-invalid' : projectErrors.image }">
                 </div>
@@ -159,10 +159,11 @@ export default {
     },
 
     handleFile(e) {
-      this.newProject.image = e.target.files[0]
+      this.newProject.images = [...e.target.files]
     },
 
     submitProject() {
+      // console.log(this.newProject)
       this.addProject(this.newProject)
     },
   }

@@ -10,7 +10,24 @@
           </h5>
         </div>
         <div class="project-image-container">
-          <img :src="project.image" alt="">
+          <div :id="project.slug" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item"
+                v-for="(image, index) in project.images" 
+                :key="image.id"
+                :class="{ 'active' : index == 0 }">
+                <img :src="image.image" class="d-block w-100" alt="...">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" :data-bs-target="'#'+project.slug" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" :data-bs-target="'#'+project.slug" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
         </div>
         <div class="project-tags-container">
           <button class="btn btn-sm btn-outline-dark disabled m-1" v-for="tag in project.tags" :key="tag.slug">
