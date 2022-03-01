@@ -1,9 +1,20 @@
 # blog-app-vue
 
-#DESCRIPTION
+###Description
 ```
 A simple web application where I can post my blogs, artworks and projects.
 ```
+## Tech used
+```
+> Vue.js 3
+> Vue router
+> Vuex 4
+> Bootstrap 5
+> Cloudinary (Image storage)
+> Laravel 8 (Backend)
+
+```
+
 ## Project setup
 ```
 npm install
@@ -17,9 +28,4 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
 ```
