@@ -1,6 +1,6 @@
 # blog-app-vue
 
-###Description
+## Description
 ```
 A simple web application where I can post my blogs, artworks and projects.
 ```
