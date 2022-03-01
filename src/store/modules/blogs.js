@@ -60,7 +60,7 @@ const actions = {
     formData.append('upload_preset', 't8j7klfq')
     try {
       // =================== Upload image to cloudinary ===================
-      const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
+      const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload/', {
         body: formData,
         method: 'POST'
       })
