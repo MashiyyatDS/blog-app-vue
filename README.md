@@ -1,5 +1,9 @@
 # blog-app-vue
 
+#DESCRIPTION
+```
+A simple web application where I can post my blogs, artworks and projects.
+```
 ## Project setup
 ```
 npm install
@@ -19,6 +23,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
