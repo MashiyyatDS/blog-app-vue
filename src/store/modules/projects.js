@@ -10,7 +10,7 @@ const state = {
     description: '',
     link: '',
     repository: '',
-    image: [],
+    images: [],
     tags: [],
   },
   newProject: {
@@ -18,7 +18,7 @@ const state = {
     description: '',
     link: '',
     repository: '',
-    image: '',
+    images: [],
     tags: [],
   },
   projectErrors: []
@@ -38,31 +38,42 @@ const actions = {
   async addProject({ commit }, payload) {
     commit('setProjectErrors', [])
     showLoader("Adding Project...")
-    let formData = new FormData()
-    formData.append('file', payload.image)
-    formData.append('upload_preset', 'jsa0dt26')
     try {
-      // =================== Upload image to cloudinary ===================
-      const image = await fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
-        body: formData,
-        method: 'POST'
-      }).then(res => { return res.json() }).then(data => { return data })
-      let imageName = image.url
-      
-      // =================== Upload project data ===================
+      // Upload project data
       const project = await axios.post('api/projects', {
         title: payload.title,
         description: payload.description,
         link: payload.link,
         repository: payload.repository,
-        image: imageName
+        images: payload.images.length
       })
       let projectId = project.data.project.id
 
-      // =================== Upload project tags ===================
+      // Upload project tags
       axios.post('api/project-tags', {
         tags: payload.tags,
         project_id: projectId
+      })
+      .then(res => console.log(res))
+      .catch(err => console.error(err))
+
+      // Upload project images
+      payload.images.forEach(image => {
+        let formData = new FormData()
+        formData.append('file', image)
+        formData.append('upload_preset', 'jsa0dt26')
+
+        fetch('https://api.cloudinary.com/v1_1/dv1tdnpbu/image/upload', {
+          method: 'POST',
+          body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+          axios.post('api/project-images', {
+            image: data.url,
+            project_id: projectId
+          })
+        })
       })
 
       Swal.fire({title: "Project added", icon: 'success' })
@@ -70,7 +81,6 @@ const actions = {
     }catch (error) {
       Swal.close()
       commit('setProjectErrors', error.response.data.errors)
-      // console.clear()
       console.log(error.response)
     }
   },
@@ -83,6 +93,7 @@ const actions = {
       const response = await axios.get(url)
       commit("setProjects", response.data.projects.data)
       commit("setProjectLinks", response.data.projects.links)
+      console.log(response)
       Swal.close()
     } catch (error) {
       console.error(error.response)
@@ -159,6 +170,7 @@ const actions = {
     .then(res => {
       Swal.close()
       commit('setProject', res.data.project)
+      console.log(res)
     })
     .catch(err => {
       Swal.close()
