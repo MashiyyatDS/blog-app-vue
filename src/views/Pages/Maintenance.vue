@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-12">
                     <h3><i class="fa fa-wrench"></i> This website is under maintenance  </h3>
-                    <small>This website will undergo maintenance from August 24 until October 27, thanks for patience!</small>
+                    <small>This website will undergo maintenance from August 24 until October 27, thanks for your patience!</small>
                 </div>
                 <div class="col-12">
                     <small>~ Kuya Mash 😺</small>
